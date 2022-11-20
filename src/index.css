@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base{
+    li{
+        @apply p-4
+    }
+    button{
+        @apply text-black bg-white px-3 py-1 rounded-3xl
+        hover:bg-gray-200
+    }
+}
