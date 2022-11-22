@@ -24,17 +24,21 @@ function App() {
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick}/>
-        <div className="search m-4">
-          <TextField
-            onChange={inputHandler}
-            id="outlined-basic"
-            variant="outlined"
-            fullWidth
-            label="Search"
-          />
+      <div className="flex">
+        <div className="flex flex-col grow-[1] m-6 gap-4">
+          <div>
+            <TextField
+              onChange={inputHandler}
+              id="outlined-basic"
+              variant="outlined"
+              fullWidth
+              label="Search"
+              /> 
+          </div>   
+          <GameList input={searchInput} games={games} desporto={desporto}/>
         </div>
-        <GameList input={searchInput} games={games} desporto={desporto}/>
         <Boletim/>
+      </div>
     </div>
   );
 }
