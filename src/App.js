@@ -24,7 +24,7 @@ function App() {
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick}/>
-      <div className="flex">
+      <div className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <div>
             <TextField
