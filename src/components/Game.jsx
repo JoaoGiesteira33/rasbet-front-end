@@ -1,7 +1,7 @@
 import React from 'react'
 import { GameOutcomes } from './GameOutcomes'
 
-export const Game = ({game}) => {
+export const Game = ({selectedOutcomes, game, outcomeClick}) => {
     
     return (
     <div className='border-2 bg-gray-50 rounded-md border-dotted border-green-900 flex items-center '>
@@ -10,7 +10,7 @@ export const Game = ({game}) => {
                 <p className=' text-sm text-gray-400'>{game.date}</p>
             </div>
             <div className='grow mx-20'>
-                <GameOutcomes outcomes={game.outcomes}/>
+                <GameOutcomes selectedOutcomes={selectedOutcomes} outcomes={game.outcomes} outcomeClick={outcomeClick}/>
             </div>
     </div>
     );

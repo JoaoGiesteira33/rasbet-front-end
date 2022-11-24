@@ -6,12 +6,56 @@ import { GameList } from "./components/GameList";
 import { Boletim } from "./components/Boletim";
 
 function App() {
-  const [games,setGames] = useState([]);
+  const [games,setGames] = useState([{
+    id: 1,
+    home:'Porto',
+    away:'Benfica',
+    date:'20-11 17:30',
+    outcomes: [
+        {
+            resultado: 'Porto',
+            cota: 1.6,
+            id: 1,
+        },
+        {
+            resultado: 'Empate',
+            cota: 4.6,
+            id: 2,
+        },
+        {
+            resultado: 'Benfica',
+            cota: 1.9,
+            id: 3,
+        }
+    ]
+    },{
+    id: 2,
+    home:'Sporting',
+    away:'Braga',
+    date:'20-12 17:30',
+    outcomes: [
+        {
+            resultado: 'Sporting',
+            cota: 1.5,
+            id: 4,
+        },
+        {
+            resultado: 'Empate',
+            cota: 3.6,
+            id: 5,
+        },
+        {
+            resultado: 'Braga',
+            cota: 2.9,
+            id: 6,
+        }
+    ]
+    },]);
+  const [selectedOutcomes, setSelectedOutcomes] = useState([1,5]);
   const [searchInput,setSearchInput] = useState("");
   const [desporto,setDesporto] = useState("all");
 
-  let inputHandler = (e) => {
-    //convert input text to lower case
+  const inputHandler = (e) => {
     let lowerCase = e.target.value.toLowerCase();
     setSearchInput(lowerCase);
   };
@@ -20,6 +64,14 @@ function App() {
     console.log(e.target.innerHTML);
     setDesporto(e.target.innerHTML.toLowerCase());
   };
+
+  const handleOutcomeClick = (id) => {
+    if(!selectedOutcomes.includes(id))
+      setSelectedOutcomes([...selectedOutcomes,id])
+    else{
+      setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
+    } 
+  }
 
   return (
     <div>
@@ -35,9 +87,9 @@ function App() {
               label="Search"
               /> 
           </div>   
-          <GameList input={searchInput} games={games} desporto={desporto}/>
+          <GameList selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
         </div>
-        <Boletim/>
+        <Boletim selectedOutcomes={selectedOutcomes} games={games}/>
       </div>
     </div>
   );
