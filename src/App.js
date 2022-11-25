@@ -5,6 +5,7 @@ import { Boletim } from "./components/Boletim";
 import { Login } from "./components/Login";
 import {userDetailsContext} from "./components/UserDetailsProvider";
 import { Register } from "./components/Registo";
+import { Profile } from "./components/Profile";
 
 function App() {
   const [games,setGames] = useState([{
@@ -58,6 +59,7 @@ function App() {
   const [isLogginin,setIsLogginin] = useState(false);
   const [isRegistinn, setIsRegistinn] = useState(false);
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
+  const [isOnProfile, setIsOnProfile] = useState(false);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -91,6 +93,7 @@ function App() {
     setUserDetails({
       email: userEmail,
       online: true,
+      password: userPassword,
     });
 
     //Login logic here
@@ -108,9 +111,15 @@ function App() {
 
   }
 
+  const handleProfileClick = () => {
+    setIsLogginin(false);
+    setIsRegistinn(false);
+    setIsOnProfile((isOnProfile) => (!isOnProfile));
+  }
+
   return (
     <div>
-      <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick}/>
+      <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
       <div className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
@@ -120,6 +129,7 @@ function App() {
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
+      <Profile isOnProfile={isOnProfile}/>
     </div>
   );
 }

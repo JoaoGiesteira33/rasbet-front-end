@@ -30,7 +30,7 @@ export const Navbar = (props) => {
                 </div>
                 <div className='flex pr-4'>
                     {isLoggedIn ? (
-                        <p className='text-white'>Bem vindo, <i className='hover:underline hover:cursor-pointer'>{userDetails.email}</i>.</p>
+                        <p className='text-white'>Bem vindo, <i onClick={props.handleProfileClick} className='hover:underline hover:cursor-pointer'>{userDetails.email}</i></p>
                     ) : (
                         <>
                         <button onClick={() => props.handleLoginClick()} className='bg-transparent mr-4 text-white hover:bg-transparent'>Login</button>
