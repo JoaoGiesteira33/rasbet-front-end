@@ -54,7 +54,7 @@ function App() {
     },]);
   const [selectedOutcomes, setSelectedOutcomes] = useState([]);
   const [searchInput,setSearchInput] = useState("");
-  const [desporto,setDesporto] = useState("all");
+  const [desporto,setDesporto] = useState("todos");
   const [isLogginin,setIsLogginin] = useState(false);
   const [isRegistinn, setIsRegistinn] = useState(false);
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
@@ -70,7 +70,6 @@ function App() {
   }
 
   const handleSportClick = (e) => {
-    console.log(e.target.innerHTML);
     setDesporto(e.target.innerHTML.toLowerCase());
   };
 

@@ -11,19 +11,19 @@ export const Navbar = (props) => {
                 <div className='flex items-center'>
                     <h1 className='font-bold mr-4 text-4xl text-[#dce923]'>RASBET.</h1>
                     <ul className='flex '>
-                        <li className='text-white cursor-pointer hover:bg-gray-100/10 hover:rounded-3xl'
+                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "todos" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
                             onClick={props.changeDesporto}>
                             TODOS</li>
-                        <li className='text-white cursor-pointer hover:bg-gray-100/10 hover:rounded-3xl'
+                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "futebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
                             onClick={props.changeDesporto}>
                             FUTEBOL</li>
-                        <li className='text-white cursor-pointer hover:bg-gray-100/10 hover:rounded-3xl'
+                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "basquetebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
                             onClick={props.changeDesporto}>
                             BASQUETEBOL</li>
-                        <li className='text-white cursor-pointer hover:bg-gray-100/10 hover:rounded-3xl'
+                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "ténis" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
                             onClick={props.changeDesporto}>
                             TÉNIS</li>
-                        <li className='text-white cursor-pointer hover:bg-gray-100/10 hover:rounded-3xl'
+                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "motogp" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
                             onClick={props.changeDesporto}>
                             MOTOGP</li>
                     </ul>
