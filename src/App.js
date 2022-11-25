@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
 import { Navbar } from "./components/Navbar";
-import TextField from "@mui/material/TextField";
 import { GameList } from "./components/GameList";
 import { Boletim } from "./components/Boletim";
 import { Login } from "./components/Login";
+import {userDetailsContext} from "./components/UserDetailsProvider";
+import { Register } from "./components/Registo";
 
 function App() {
   const [games,setGames] = useState([{
@@ -56,9 +56,17 @@ function App() {
   const [searchInput,setSearchInput] = useState("");
   const [desporto,setDesporto] = useState("all");
   const [isLogginin,setIsLogginin] = useState(false);
+  const [isRegistinn, setIsRegistinn] = useState(false);
+  const [userDetails, setUserDetails] = useContext(userDetailsContext);
 
   const handleLoginClick = () => {
+    setIsRegistinn(false);
     setIsLogginin((isLogginin) => !isLogginin);
+  }
+
+  const handleRegisterClick = ()  => {
+    setIsLogginin(false);
+    setIsRegistinn((isRegistinn) => !isRegistinn);
   }
 
   const handleSportClick = (e) => {
@@ -74,9 +82,36 @@ function App() {
     } 
   }
 
+  const handleLoginFinal = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const userEmail = formData.get("userEmail");
+    const userPassword = formData.get("userPassword");
+
+    setUserDetails({
+      email: userEmail,
+      online: true,
+    });
+
+    //Login logic here
+
+    setIsLogginin(false);
+  }
+
+  const handleRegisterFinal = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    console.log(formData);
+
+    //Register logic here
+
+  }
+
   return (
     <div>
-      <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick}/>
+      <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick}/>
       <div className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
@@ -84,7 +119,8 @@ function App() {
         </div>
         <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
       </div>
-      <Login isLogginin={isLogginin}/>
+      <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
+      <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
     </div>
   );
 }

@@ -1,7 +1,10 @@
-import {React, useState} from 'react'
+import {React, useContext, useState} from 'react'
+import  {userDetailsContext} from './UserDetailsProvider';
 
 export const BoletimBot = ({selecoes}) => {
     const [valorAposta,setValorAposta] = useState('');
+    const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const canBet = userDetails.online;
 
     const cotaTotal = selecoes.reduce(
         function(acc,currValue){
@@ -11,7 +14,6 @@ export const BoletimBot = ({selecoes}) => {
 
     const onValorApostaChange = (e) => {
         setValorAposta(e.target.value);
-        console.log(valorAposta);
     }
 
   return (
@@ -29,7 +31,7 @@ export const BoletimBot = ({selecoes}) => {
                 <p>Total de ganhos</p>
                 <p className=' text-orange-600 font-bold'>{(cotaTotal*valorAposta).toFixed(2)} €</p>
             </div>
-            <button className='font-bold hover:bg-orange-200 transition-colors bg-orange-500 px-7 py-3'>APOSTAR</button>
+            <button disabled={!canBet} className='font-bold hover:bg-orange-200 transition-colors bg-orange-500 px-7 py-3'>APOSTAR</button>
         </div>
     </div>
   )

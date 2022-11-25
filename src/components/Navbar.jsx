@@ -1,7 +1,9 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
+import { userDetailsContext } from './UserDetailsProvider';
 
 export const Navbar = (props) => {
-    const isLoggedIn = false;
+    const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const isLoggedIn = userDetails.online;
 
     return (
         <div className='w-screen h-[10vh] z-1 bg-green-900 drop-shadow-lg'>
@@ -28,11 +30,11 @@ export const Navbar = (props) => {
                 </div>
                 <div className='flex pr-4'>
                     {isLoggedIn ? (
-                        <p className='text-white'>Bem vindo, <i className='hover:underline hover:cursor-pointer'>João</i>.</p>
+                        <p className='text-white'>Bem vindo, <i className='hover:underline hover:cursor-pointer'>{userDetails.email}</i>.</p>
                     ) : (
                         <>
                         <button onClick={() => props.handleLoginClick()} className='bg-transparent mr-4 text-white hover:bg-transparent'>Login</button>
-                        <button>Register</button>
+                        <button onClick={() => props.handleRegisterClick()}>Register</button>
                         </>
                     )}
                 </div>
