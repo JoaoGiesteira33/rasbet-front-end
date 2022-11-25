@@ -2,26 +2,31 @@ import React, { useState } from 'react'
 import { BoletimBot } from './BoletimBot';
 import { BoletimSelecao } from './BoletimSelecao';
 
-export const Boletim = () => {
-    const [selecoes,setSelecoes] = useState([{
-        jogo: 'Sporting - Varzim',
-        resultado: 'Sporting',
-        cota: 1.5,
-        id: 1,
-    },
-    {
-        jogo: 'Porto - Benfica',
-        resultado: 'Empate',
-        cota: 4.6,
-        id: 2,
-    }]);
+export const Boletim = ({selectedOutcomes, games, outcomeClick}) => {
+    const getSelecoes = () => {
+        let returnValue = [];
+        games.forEach(g => {
+            g.outcomes.forEach(o => {
+                if(selectedOutcomes.includes(o.id)){
+                    returnValue.push({
+                        ...o,
+                        jogo: g.home + ' - ' + g.away,
+                    });
+                }
+            })
+        });
+
+        return returnValue;
+    } 
+
+    const selecoes = getSelecoes();
 
     return (
         <div className='min-w-[500px] bg-gray-100 flex flex-col items-center rounded-3xl my-5 mr-5'>
             <p className='my-4 text-4xl font-bold'>BOLETIM</p>
-            <div className='min-w-full grow'>
+            <div className='min-w-full grow overflow-auto'>
                 {selecoes.map((sel) => {
-                    return <div key={sel.id}><BoletimSelecao selecao={sel}/></div>;
+                    return <div key={sel.id}><BoletimSelecao selecao={sel} outcomeClick={outcomeClick}/></div>;
                 })
                 }
             </div>

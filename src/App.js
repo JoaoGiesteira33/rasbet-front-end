@@ -4,6 +4,7 @@ import { Navbar } from "./components/Navbar";
 import TextField from "@mui/material/TextField";
 import { GameList } from "./components/GameList";
 import { Boletim } from "./components/Boletim";
+import { Login } from "./components/Login";
 
 function App() {
   const [games,setGames] = useState([{
@@ -51,14 +52,14 @@ function App() {
         }
     ]
     },]);
-  const [selectedOutcomes, setSelectedOutcomes] = useState([1,5]);
+  const [selectedOutcomes, setSelectedOutcomes] = useState([]);
   const [searchInput,setSearchInput] = useState("");
   const [desporto,setDesporto] = useState("all");
+  const [isLogginin,setIsLogginin] = useState(false);
 
-  const inputHandler = (e) => {
-    let lowerCase = e.target.value.toLowerCase();
-    setSearchInput(lowerCase);
-  };
+  const handleLoginClick = () => {
+    setIsLogginin((isLogginin) => !isLogginin);
+  }
 
   const handleSportClick = (e) => {
     console.log(e.target.innerHTML);
@@ -75,22 +76,15 @@ function App() {
 
   return (
     <div>
-      <Navbar desporto={desporto} changeDesporto={handleSportClick}/>
+      <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick}/>
       <div className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
-          <div>
-            <TextField
-              onChange={inputHandler}
-              id="outlined-basic"
-              variant="outlined"
-              fullWidth
-              label="Search"
-              /> 
-          </div>   
+          <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
           <GameList selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
         </div>
-        <Boletim selectedOutcomes={selectedOutcomes} games={games}/>
+        <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
       </div>
+      <Login isLogginin={isLogginin}/>
     </div>
   );
 }

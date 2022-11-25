@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 export const Navbar = (props) => {
-    const isLoggedIn = true;
+    const isLoggedIn = false;
 
     return (
         <div className='w-screen h-[10vh] z-1 bg-green-900 drop-shadow-lg'>
@@ -31,7 +31,7 @@ export const Navbar = (props) => {
                         <p className='text-white'>Bem vindo, <i className='hover:underline hover:cursor-pointer'>João</i>.</p>
                     ) : (
                         <>
-                        <button className='bg-transparent mr-4 text-white hover:bg-transparent'>Login</button>
+                        <button onClick={() => props.handleLoginClick()} className='bg-transparent mr-4 text-white hover:bg-transparent'>Login</button>
                         <button>Register</button>
                         </>
                     )}

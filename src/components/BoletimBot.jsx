@@ -27,7 +27,7 @@ export const BoletimBot = ({selecoes}) => {
         <div className='flex bg-white content-center rounded-sm justify-between mx-6 px-5 py-4'>
             <div className='flex flex-col items-center'>
                 <p>Total de ganhos</p>
-                <p className=' text-orange-600 font-bold'>{3.9*valorAposta} €</p>
+                <p className=' text-orange-600 font-bold'>{(cotaTotal*valorAposta).toFixed(2)} €</p>
             </div>
             <button className='font-bold hover:bg-orange-200 transition-colors bg-orange-500 px-7 py-3'>APOSTAR</button>
         </div>

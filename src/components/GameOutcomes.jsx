@@ -6,11 +6,13 @@ export const GameOutcomes = ({selectedOutcomes, outcomes, outcomeClick}) => {
          {outcomes.map(outcome =>
           <div key={outcome.id}>
             <button onClick={() => outcomeClick(outcome.id)} style={{backgroundColor: selectedOutcomes.includes(outcome.id) ? 'orange' : 'white'}} 
-              className='ease-in duration-100 flex w-40 flex-col items-center justify-center border-2 border-green-700 rounded-md border-gray-500'>
+              className='ease-in duration-100 flex  w-[7rem] flex-col items-center justify-center border-2 border-green-700 rounded-md border-gray-500'>
               <p className='font-bold'>
                 {outcome.resultado}
               </p>
+              <p className='font-bold'>
               {outcome.cota}
+              </p>
             </button>
           </div>
         )}
