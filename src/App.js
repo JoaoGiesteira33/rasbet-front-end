@@ -64,6 +64,7 @@ function App() {
   const [isOnProfile, setIsOnProfile] = useState(false);
   const [isOnHistoricoApostas, setIsOnHistoricoApostas] = useState(false);
   const [isOnHistoricoTransacoes, setIsOnHistoricoTransacoes] = useState(false);
+  const [isOnAutoexclusao,setIsOnAutoexclusao] = useState(false);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -98,6 +99,7 @@ function App() {
       email: userEmail,
       online: true,
       password: userPassword,
+      type: 'admin',
     });
 
     //Login logic here
@@ -140,6 +142,11 @@ function App() {
     setIsOnProfile(false);
     setIsOnHistoricoApostas(false);
     setIsOnHistoricoTransacoes(false);
+    setIsOnAutoexclusao(false);
+  }
+
+  const handleAEClick = () => {
+    setIsOnAutoexclusao((isOnAutoexclusao) => (!isOnAutoexclusao));
   }
 
   return (
@@ -154,7 +161,12 @@ function App() {
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
-      <Profile isOnProfile={isOnProfile} handleHAClick={handleHistoricoApostasClick} handleHTClick={handleHistoricoTransacoesClick}/>
+      <Profile
+        isOnProfile={isOnProfile}
+        isOnAutoexclusao={isOnAutoexclusao}
+        handleHAClick={handleHistoricoApostasClick} 
+        handleHTClick={handleHistoricoTransacoesClick}
+        handleAEClick={handleAEClick}/>
       <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>
       <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>
     </div>
