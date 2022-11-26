@@ -4,7 +4,7 @@ import { userDetailsContext } from './UserDetailsProvider';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { AutoExclusao } from './AutoExclusao';
 
-export const Profile = ({isOnProfile, isOnAutoexclusao, handleHAClick, handleHTClick, handleAEClick }) => {
+export const Profile = ({isOnProfile, isOnAutoexclusao, cancelAE, handleHAClick, handleHTClick, handleAEClick }) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
 
     return (
@@ -43,7 +43,7 @@ export const Profile = ({isOnProfile, isOnAutoexclusao, handleHAClick, handleHTC
             </div>
         </div>
         <p onClick={() => handleAEClick()} className='self-end hover:underline hover:cursor-pointer bg-red-400 rounded-xl p-3'>Auto-exclusão</p>
-        <AutoExclusao isOnAutoexclusao={isOnAutoexclusao}/>
+        <AutoExclusao cancelAE={cancelAE} isOnAutoexclusao={isOnAutoexclusao}/>
     </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export const AutoExclusao = ({isOnAutoexclusao}) => {
+export const AutoExclusao = ({isOnAutoexclusao, cancelAE}) => {
     const [inputDias,setInputDias] = useState("");
 
     const handleInputChane = (e) => {
@@ -24,7 +24,7 @@ export const AutoExclusao = ({isOnAutoexclusao}) => {
             <label for="numerOfDays">Dias</label>
         </div>
         <div className='flex gap-10'>
-            <button className=' border-orange-500 border-2 text-orange-500 rounded-xl'>Cancelar</button>
+            <button onClick={() => {setInputDias(""); cancelAE();}} className=' border-orange-500 border-2 text-orange-500 rounded-xl'>Cancelar</button>
             <button onClick={() => handleSubmit()} className="bg-orange-500 text-white rounded-xl">OK</button>
         </div>
     </div>

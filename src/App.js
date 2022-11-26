@@ -149,6 +149,10 @@ function App() {
     setIsOnAutoexclusao((isOnAutoexclusao) => (!isOnAutoexclusao));
   }
 
+  const cancelAE = () => {
+    setIsOnAutoexclusao(false);
+  }
+
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
@@ -164,6 +168,7 @@ function App() {
       <Profile
         isOnProfile={isOnProfile}
         isOnAutoexclusao={isOnAutoexclusao}
+        cancelAE={cancelAE}
         handleHAClick={handleHistoricoApostasClick} 
         handleHTClick={handleHistoricoTransacoesClick}
         handleAEClick={handleAEClick}/>
