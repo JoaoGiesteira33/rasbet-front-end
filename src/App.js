@@ -6,6 +6,8 @@ import { Login } from "./components/Login";
 import {userDetailsContext} from "./components/UserDetailsProvider";
 import { Register } from "./components/Registo";
 import { Profile } from "./components/Profile";
+import { HistoricoApostas } from "./components/HistoricoApostas";
+import { HistoricoTransacoes } from "./components/HistoricoTransacoes";
 
 function App() {
   const [games,setGames] = useState([{
@@ -60,6 +62,8 @@ function App() {
   const [isRegistinn, setIsRegistinn] = useState(false);
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
   const [isOnProfile, setIsOnProfile] = useState(false);
+  const [isOnHistoricoApostas, setIsOnHistoricoApostas] = useState(false);
+  const [isOnHistoricoTransacoes, setIsOnHistoricoTransacoes] = useState(false);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -114,13 +118,34 @@ function App() {
   const handleProfileClick = () => {
     setIsLogginin(false);
     setIsRegistinn(false);
+    setIsOnHistoricoApostas(false);
     setIsOnProfile((isOnProfile) => (!isOnProfile));
+    setIsOnHistoricoApostas(false);
+    setIsOnHistoricoTransacoes(false);
+  }
+
+  const handleHistoricoApostasClick = () => {
+    setIsOnProfile(false);
+    setIsOnHistoricoApostas(true);
+  }
+
+  const handleHistoricoTransacoesClick = () => {
+    setIsOnProfile(false);
+    setIsOnHistoricoTransacoes(true);
+  }
+
+  const closeAllWindows = () => {
+    setIsLogginin(false);
+    setIsRegistinn(false);
+    setIsOnProfile(false);
+    setIsOnHistoricoApostas(false);
+    setIsOnHistoricoTransacoes(false);
   }
 
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
-      <div className="flex h-[90vh]">
+      <div onClick={() => closeAllWindows()} className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
           <GameList selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
@@ -129,7 +154,9 @@ function App() {
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
-      <Profile isOnProfile={isOnProfile}/>
+      <Profile isOnProfile={isOnProfile} handleHAClick={handleHistoricoApostasClick} handleHTClick={handleHistoricoTransacoesClick}/>
+      <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>
+      <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>
     </div>
   );
 }
