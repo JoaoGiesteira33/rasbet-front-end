@@ -97,7 +97,7 @@ function App() {
   const espHandleOutcomeClick = (id) => {
     if(!selectedOutcomes.includes(id)){
       setSelectedOutcomes([...selectedOutcomes,id])
-      setEspSelectedOutcomes([...espSelectedOutcomes,{id: id, value: "ola"}])
+      setEspSelectedOutcomes([...espSelectedOutcomes,{id: id, value: ""}])
     }
     else{
       setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
@@ -105,8 +105,26 @@ function App() {
     } 
   }
 
+  const espCancelButtonBoletim = () => {
+    setEspSelectedOutcomes([]);
+    setSelectedOutcomes([]);
+  }
+
+  const handleEspOddChange = (id, newValue) => {
+    const newSelectedOutcomeOdds = espSelectedOutcomes.map(o => {
+      if(o.id === id)
+        return {id: id, value: newValue};
+      else
+        return o;
+    });
+
+    setEspSelectedOutcomes(newSelectedOutcomeOdds);
+  }
+
   const espHandleNewOddsSubmission = () => {
-    espSelectedOutcomes.forEach(e => console.log(e));
+    console.log(espSelectedOutcomes);
+
+    //Handle new odds submission
   }
 
   const handleLoginFinal = (e) => {
@@ -194,7 +212,7 @@ function App() {
           }
         </div>
         {
-          isEspecialista ? <EspecialistaBoletim finishAction={espHandleNewOddsSubmission} selectedOutcomes={selectedOutcomes} games={games} outcomeClick={espHandleOutcomeClick}/> : <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
+          isEspecialista ? <EspecialistaBoletim cancelAction={espCancelButtonBoletim} handleOddChange={handleEspOddChange} finishAction={espHandleNewOddsSubmission} selectedOutcomes={selectedOutcomes} espSelectedOutcomes={espSelectedOutcomes} games={games} outcomeClick={espHandleOutcomeClick}/> : <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
         }
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>

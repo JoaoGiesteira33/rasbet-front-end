@@ -1,7 +1,7 @@
 import React from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-export const EspecialistaBoletimSelecao = ({oddObj, handleOChange, selecao, outcomeClick}) => {
+export const EspecialistaBoletimSelecao = ({handleOddChange, valorSelecao, selecao, outcomeClick}) => {
     return (
     <div className='mx-6'>
         <div className='flex px-3 bg-white items-center justify-between'>
@@ -14,7 +14,7 @@ export const EspecialistaBoletimSelecao = ({oddObj, handleOChange, selecao, outc
             <div>Resultado: {selecao.resultado}</div>
             <div className='flex justify-end'>
                 <label className='font-semibold' htmlFor='valorCota'>Cota</label>
-                <input id="valorCota" className='px-2 border-black rounded-md border-2 ml-4 w-[20%]'
+                <input value={valorSelecao} onChange={(e) => handleOddChange(selecao.id, e.target.value)} id="valorCota" className='px-2 border-black rounded-md border-2 ml-4 w-[20%]'
                 type="text"></input>
             </div>
         </div>
