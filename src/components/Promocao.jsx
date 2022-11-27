@@ -24,7 +24,7 @@ export const Promocao = ({game}) => {
              className='rounded-xl mr-2 border-green-700 border-2 p-2  outline-none'
              value={valorProm} onChange={handlePromChange} id="valorProm" type="text"></input>€
              <div className='mt-4'>
-                <button onClick={} className='w-[260px] hover:bg-green-500 text-black bg-green-700 rounded-xl border-black border-2 px-6'>Inserir</button>
+                <button onClick={handlePromInsertion} className='w-[260px] hover:bg-green-500 text-black bg-green-700 rounded-xl border-black border-2 px-6'>Inserir</button>
              </div>
         </div>
     </div>

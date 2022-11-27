@@ -9,6 +9,7 @@ import { Profile } from "./components/Profile";
 import { HistoricoApostas } from "./components/HistoricoApostas";
 import { HistoricoTransacoes } from "./components/HistoricoTransacoes";
 import { Promocao } from "./components/Promocao";
+import { EspecialistaBoletim } from "./components/EspecialistaBoletim";
 
 function App() {
   const [games,setGames] = useState([{
@@ -57,6 +58,8 @@ function App() {
     ]
     },]);
   const [selectedOutcomes, setSelectedOutcomes] = useState([]);
+  const [espSelectedOutcomes, setEspSelectedOutcomes] = useState([]);
+
   const [searchInput,setSearchInput] = useState("");
   const [desporto,setDesporto] = useState("todos");
   const [isLogginin,setIsLogginin] = useState(false);
@@ -91,6 +94,21 @@ function App() {
     } 
   }
 
+  const espHandleOutcomeClick = (id) => {
+    if(!selectedOutcomes.includes(id)){
+      setSelectedOutcomes([...selectedOutcomes,id])
+      setEspSelectedOutcomes([...espSelectedOutcomes,{id: id, value: "ola"}])
+    }
+    else{
+      setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
+      setEspSelectedOutcomes(espSelectedOutcomes.filter(g => g.id !== id));
+    } 
+  }
+
+  const espHandleNewOddsSubmission = () => {
+    espSelectedOutcomes.forEach(e => console.log(e));
+  }
+
   const handleLoginFinal = (e) => {
     e.preventDefault();
 
@@ -102,7 +120,7 @@ function App() {
       email: userEmail,
       online: true,
       password: userPassword,
-      type: 'admin',
+      type: 'especialista',
     });
 
     //Login logic here
@@ -163,15 +181,21 @@ function App() {
     setIsOnAutoexclusao(false);
   }
 
+  const isEspecialista = userDetails.type === "especialista";
+
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
       <div onClick={() => closeAllWindows()} className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
-          <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
+          {
+            isEspecialista ? <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={espHandleOutcomeClick}/> : <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
+          }
         </div>
-        <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
+        {
+          isEspecialista ? <EspecialistaBoletim finishAction={espHandleNewOddsSubmission} selectedOutcomes={selectedOutcomes} games={games} outcomeClick={espHandleOutcomeClick}/> : <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
+        }
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
