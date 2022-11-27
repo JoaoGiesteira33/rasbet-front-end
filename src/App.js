@@ -8,6 +8,7 @@ import { Register } from "./components/Registo";
 import { Profile } from "./components/Profile";
 import { HistoricoApostas } from "./components/HistoricoApostas";
 import { HistoricoTransacoes } from "./components/HistoricoTransacoes";
+import { Promocao } from "./components/Promocao";
 
 function App() {
   const [games,setGames] = useState([{
@@ -65,6 +66,8 @@ function App() {
   const [isOnHistoricoApostas, setIsOnHistoricoApostas] = useState(false);
   const [isOnHistoricoTransacoes, setIsOnHistoricoTransacoes] = useState(false);
   const [isOnAutoexclusao,setIsOnAutoexclusao] = useState(false);
+  const [isOnProm, setIsOnProm] = useState(false);
+  const [promGameID, setPromGameID] = useState(-1);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -143,10 +146,17 @@ function App() {
     setIsOnHistoricoApostas(false);
     setIsOnHistoricoTransacoes(false);
     setIsOnAutoexclusao(false);
+    if(isOnProm) setIsOnProm(false);
   }
 
   const handleAEClick = () => {
     setIsOnAutoexclusao((isOnAutoexclusao) => (!isOnAutoexclusao));
+  }
+
+  const handlePromClick = (id) => {
+    console.log("Entering prom for game: " + id);
+    setIsOnProm(true);
+    setPromGameID(id);
   }
 
   const cancelAE = () => {
@@ -159,7 +169,7 @@ function App() {
       <div onClick={() => closeAllWindows()} className="flex h-[90vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
-          <GameList selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
+          <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
         </div>
         <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
       </div>
@@ -172,8 +182,9 @@ function App() {
         handleHAClick={handleHistoricoApostasClick} 
         handleHTClick={handleHistoricoTransacoesClick}
         handleAEClick={handleAEClick}/>
-      <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>
-      <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>
+      {isOnHistoricoApostas && <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
+      {isOnHistoricoTransacoes && <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>}
+      {isOnProm && <Promocao game={games.find(g => g.id === promGameID)}/>}
     </div>
   );
 }

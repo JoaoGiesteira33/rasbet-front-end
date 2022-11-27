@@ -79,7 +79,7 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
         <p className='text-4xl mt-4'>Histórico de Transações</p>
         <p className='text-2xl mt-4'>Saldo: {} €</p>
         <div className='w-[1000px] no-scrollbar overflow-y-auto'>
-        <table class="w-full">
+        <table className="w-full">
         <thead className="bg-white sticky top-0 h-[50px] text-xl">
             <tr>
                 <th className='text-center ml-2'>Data</th>
