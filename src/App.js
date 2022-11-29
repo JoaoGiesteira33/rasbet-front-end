@@ -10,6 +10,7 @@ import { HistoricoApostas } from "./components/HistoricoApostas";
 import { HistoricoTransacoes } from "./components/HistoricoTransacoes";
 import { Promocao } from "./components/Promocao";
 import { EspecialistaBoletim } from "./components/EspecialistaBoletim";
+import { AdminBoletim } from "./components/AdminBoletim";
 
 function App() {
   const [games,setGames] = useState([{
@@ -17,6 +18,7 @@ function App() {
     home:'Porto',
     away:'Benfica',
     date:'20-11 17:30',
+    estado: 'ativo',
     outcomes: [
         {
             resultado: 'Porto',
@@ -37,6 +39,7 @@ function App() {
     },{
     id: 2,
     home:'Sporting',
+    estado:'ativo',
     away:'Braga',
     date:'20-12 17:30',
     outcomes: [
@@ -71,6 +74,7 @@ function App() {
   const [isOnAutoexclusao,setIsOnAutoexclusao] = useState(false);
   const [isOnProm, setIsOnProm] = useState(false);
   const [promGameID, setPromGameID] = useState(-1);
+  const [adminSelectedGame,setAdminSelectedGame] = useState("");
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -92,6 +96,16 @@ function App() {
     else{
       setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
     } 
+  }
+
+  const handleAdminOutcomeClick = (id) => {
+    console.log("INPUT: " + id);
+    console.log("but current is: " + adminSelectedGame);
+    if(adminSelectedGame === id)
+      setAdminSelectedGame("");
+    else{
+      setAdminSelectedGame(id);
+    }
   }
 
   const espHandleOutcomeClick = (id) => {
@@ -138,7 +152,7 @@ function App() {
       email: userEmail,
       online: true,
       password: userPassword,
-      type: 'especialista',
+      type: 'admin',
     });
 
     //Login logic here
@@ -200,6 +214,8 @@ function App() {
   }
 
   const isEspecialista = userDetails.type === "especialista";
+  const isAdmin = userDetails.type === "admin";
+  const isApostador = userDetails.type === "apostador";
 
   return (
     <div>
@@ -208,11 +224,64 @@ function App() {
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
           {
-            isEspecialista ? <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={espHandleOutcomeClick}/> : <GameList handlePromClick={handlePromClick} selectedOutcomes={selectedOutcomes} input={searchInput} games={games} desporto={desporto} outcomeClick={handleOutcomeClick}/>
+            isEspecialista && <GameList handlePromClick={handlePromClick}
+             selectedOutcomes={selectedOutcomes}
+              input={searchInput}
+               games={games}
+                desporto={desporto}
+                 outcomeClick={espHandleOutcomeClick}/>
+          }
+          {
+            isApostador && <GameList handlePromClick={handlePromClick}
+             selectedOutcomes={selectedOutcomes}
+              input={searchInput}
+               games={games}
+                desporto={desporto}
+                 outcomeClick={handleOutcomeClick}/>
+          }
+          {
+            isAdmin && <GameList handlePromClick={handlePromClick}
+             selectedOutcomes={selectedOutcomes}
+              input={searchInput}
+               games={games}
+                desporto={desporto}
+                 outcomeClick={handleAdminOutcomeClick}
+                 selectedGame={adminSelectedGame}/>
+          }
+          {
+            !(isAdmin || isApostador || isEspecialista) && <GameList handlePromClick={handlePromClick}
+            selectedOutcomes={selectedOutcomes}
+             input={searchInput}
+              games={games}
+               desporto={desporto}
+                outcomeClick={handleOutcomeClick}/>
           }
         </div>
         {
-          isEspecialista ? <EspecialistaBoletim cancelAction={espCancelButtonBoletim} handleOddChange={handleEspOddChange} finishAction={espHandleNewOddsSubmission} selectedOutcomes={selectedOutcomes} espSelectedOutcomes={espSelectedOutcomes} games={games} outcomeClick={espHandleOutcomeClick}/> : <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
+          isEspecialista && <EspecialistaBoletim cancelAction={espCancelButtonBoletim}
+           handleOddChange={handleEspOddChange}
+            finishAction={espHandleNewOddsSubmission}
+             selectedOutcomes={selectedOutcomes}
+              espSelectedOutcomes={espSelectedOutcomes}
+               games={games}
+                outcomeClick={espHandleOutcomeClick}/>
+        }
+        {
+          isApostador &&  <Boletim selectedOutcomes={selectedOutcomes}
+           games={games}
+            outcomeClick={handleOutcomeClick}/>
+        }
+        {
+          isAdmin && <AdminBoletim
+           games={games}
+           selectedGameId={adminSelectedGame}
+           />
+        }
+        {
+          !(isAdmin || isApostador || isEspecialista) && <Boletim selectedOutcomes={selectedOutcomes}
+          games={games}
+           outcomeClick={handleOutcomeClick}/>
+
         }
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal} handleRegisterClick={handleRegisterClick}/>
