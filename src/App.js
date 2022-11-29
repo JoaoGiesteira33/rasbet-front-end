@@ -215,7 +215,7 @@ function App() {
           isEspecialista ? <EspecialistaBoletim cancelAction={espCancelButtonBoletim} handleOddChange={handleEspOddChange} finishAction={espHandleNewOddsSubmission} selectedOutcomes={selectedOutcomes} espSelectedOutcomes={espSelectedOutcomes} games={games} outcomeClick={espHandleOutcomeClick}/> : <Boletim selectedOutcomes={selectedOutcomes} games={games} outcomeClick={handleOutcomeClick}/>
         }
       </div>
-      <Login isLogginin={isLogginin} onSubmit={handleLoginFinal}/>
+      <Login isLogginin={isLogginin} onSubmit={handleLoginFinal} handleRegisterClick={handleRegisterClick}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
       <Profile
         isOnProfile={isOnProfile}
