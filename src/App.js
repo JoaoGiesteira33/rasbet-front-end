@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { GameList } from "./components/GameList";
 import { Boletim } from "./components/Boletim";
@@ -11,8 +11,11 @@ import { HistoricoTransacoes } from "./components/HistoricoTransacoes";
 import { Promocao } from "./components/Promocao";
 import { EspecialistaBoletim } from "./components/EspecialistaBoletim";
 import { AdminBoletim } from "./components/AdminBoletim";
+import APIService from "./APIService";
 
 function App() {
+  const [apiGames, setApiGames] = useState(null);
+
   const [games,setGames] = useState([{
     id: 1,
     home:'Porto',
@@ -45,7 +48,7 @@ function App() {
     outcomes: [
         {
             resultado: 'Sporting',
-            cota: 1.5,
+            cota: 3.5,
             id: 4,
         },
         {
@@ -55,7 +58,7 @@ function App() {
         },
         {
             resultado: 'Braga',
-            cota: 2.9,
+            cota: 1.03,
             id: 6,
         }
     ]
@@ -75,6 +78,34 @@ function App() {
   const [isOnProm, setIsOnProm] = useState(false);
   const [promGameID, setPromGameID] = useState(-1);
   const [adminSelectedGame,setAdminSelectedGame] = useState("");
+/*
+  useEffect(() => {
+
+    APIService.getJogos().then((data) => {
+      console.log(data)
+    })
+    .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+    });;
+  }, []);*/
+/*
+  useEffect(() => {
+    async function startFetching() {
+      setApiGames(null);
+      const result = await APIService.getJogos();
+      if (!ignore) {
+        setApiGames(result);
+      }
+    }
+
+    let ignore = false;
+    startFetching();
+    return () => {
+      ignore = true;
+    }
+  }, []);
+*/
+  console.log(apiGames);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -152,6 +183,8 @@ function App() {
     const userEmail = formData.get("userEmail");
     const userPassword = formData.get("userPassword");
 
+    console.log("EMAIL: " + userEmail);
+    console.log("PASSWORD: " + userPassword);
     setUserDetails({
       email: userEmail,
       online: true,
@@ -160,6 +193,23 @@ function App() {
     });
 
     //Login logic here
+    fetch("http://localhost:8080/utilizador/login", {
+      method: "post",
+      body: JSON.stringify({
+        email: userEmail,
+        password: userPassword
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      }).then((response) => response.json()).then((result) => {
+      /*if(result.message === "SUCCESS"){
+        alert("You are logged in.");
+      }else{
+        alert("Please check your login information.");
+      }*/
+      console.log(result);
+   });
 
     setIsLogginin(false);
   }
