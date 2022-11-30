@@ -6,24 +6,24 @@ export const Navbar = (props) => {
     const isLoggedIn = userDetails.online;
 
     return (
-        <div className='w-screen h-[10vh] z-1 bg-green-900 drop-shadow-lg'>
+        <div className='w-screen h-[10vh] top-0 bg-green-900 drop-shadow-lg fixed'>
             <div className='px-2 flex justify-between items-center w-full h-full'>
                 <div className='flex items-center'>
                     <h1 className='font-bold mr-4 text-4xl text-[#dce923]'>RASBET.</h1>
                     <ul className='flex '>
-                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "todos" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
+                        <li className={"cursor-pointer hover:rounded-3xl " + (props.desporto === "todos" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10 text-white")}
                             onClick={props.changeDesporto}>
                             TODOS</li>
-                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "futebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
+                        <li className={"cursor-pointer hover:rounded-3xl " + (props.desporto === "futebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10 text-white")}
                             onClick={props.changeDesporto}>
                             FUTEBOL</li>
-                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "basquetebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
+                        <li className={"cursor-pointer hover:rounded-3xl " + (props.desporto === "basquetebol" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10 text-white")}
                             onClick={props.changeDesporto}>
                             BASQUETEBOL</li>
-                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "ténis" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
+                        <li className={"cursor-pointer hover:rounded-3xl " + (props.desporto === "ténis" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10 text-white")}
                             onClick={props.changeDesporto}>
                             TÉNIS</li>
-                        <li className={"text-white cursor-pointer hover:rounded-3xl " + (props.desporto === "motogp" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10")}
+                        <li className={"cursor-pointer hover:rounded-3xl " + (props.desporto === "motogp" ? "bg-white text-black rounded-3xl" : "hover:bg-gray-100/10 text-white")}
                             onClick={props.changeDesporto}>
                             MOTOGP</li>
                     </ul>

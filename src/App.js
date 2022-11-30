@@ -108,6 +108,10 @@ function App() {
     }
   }
 
+  const adminCancelChangeState = () => {
+    setAdminSelectedGame("");
+  }
+
   const espHandleOutcomeClick = (id) => {
     if(!selectedOutcomes.includes(id)){
       setSelectedOutcomes([...selectedOutcomes,id])
@@ -220,7 +224,7 @@ function App() {
   return (
     <div>
       <Navbar desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
-      <div onClick={() => closeAllWindows()} className="flex h-[90vh]">
+      <div onClick={() => closeAllWindows()} className="flex h-[90vh] mt-[10vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>
           {
@@ -275,6 +279,7 @@ function App() {
           isAdmin && <AdminBoletim
            games={games}
            selectedGameId={adminSelectedGame}
+           cancelAction={adminCancelChangeState}
            />
         }
         {
