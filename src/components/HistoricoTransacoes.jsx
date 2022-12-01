@@ -1,9 +1,21 @@
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react';
 import '../styles/login.css';
 import { userDetailsContext } from './UserDetailsProvider';
+import APIService from '../APIService';
 
 export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [transacoes, setTransacoes] = useState([]);
+
+    useEffect(() => {
+        APIService.getTransacoes(userDetails.email).then((data) => {
+          console.log(data)
+        })
+        .catch(function (ex) {
+            console.log('Response parsing failed. Error: ', ex);
+        });;
+      }, [userDetails.email]);
+    /*
     const transacoes = [{
         data: "18/11/2021",
         descricao: "Ganho de aposta",
@@ -72,7 +84,7 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
         operacao: "+ 3 €",
         saldoDepois: 3,
 
-    }]
+    }]*/
 
     return (
     <div className={`${!isOnHistoricoTransacoes ? "active" : ""} gap-4 items-center show w-[1280px] h-[700px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
