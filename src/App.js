@@ -182,16 +182,7 @@ function App() {
     const formData = new FormData(e.target);
     const userEmail = formData.get("userEmail");
     const userPassword = formData.get("userPassword");
-
-    console.log("EMAIL: " + userEmail);
-    console.log("PASSWORD: " + userPassword);
-    setUserDetails({
-      email: userEmail,
-      online: true,
-      password: userPassword,
-      type: 'apostador',
-    });
-
+  
     //Login logic here
     fetch("http://localhost:8080/utilizador/login", {
       method: "post",
@@ -203,25 +194,39 @@ function App() {
         'Content-type': 'application/json; charset=UTF-8',
       },
       }).then((response) => response.json()).then((result) => {
-      /*if(result.message === "SUCCESS"){
-        alert("You are logged in.");
-      }else{
-        alert("Please check your login information.");
-      }*/
-      console.log(result);
+        console.log(result);
+        setUserDetails({
+          ...result,
+          online: true,
+        });
+        setIsLogginin(false);
    });
-
-    setIsLogginin(false);
   }
 
   const handleRegisterFinal = (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
-    console.log(formData);
 
     //Register logic here
-
+    fetch("http://localhost:8080/utilizador/registar", {
+      method: "post",
+      body: JSON.stringify({
+        userEmail: formData.get("userEmail"),
+        userPassword: formData.get("userPassword"),
+        userNIF: formData.get("userNIF"),
+        userTelemovel: formData.get("userTelemovel"),
+        userMorada: formData.get("userMorada"),
+        userDate: formData.get("userData"),
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      }).then((response) => response.json()).then(result => {
+        if(result["resposta"] === "Utilizador já existente ")
+          alert("Utilizador já existente!")
+        else
+          setIsRegistinn(false);
+      });
   }
 
   const handleProfileClick = () => {
@@ -267,9 +272,9 @@ function App() {
     setIsOnAutoexclusao(false);
   }
 
-  const isEspecialista = userDetails.type === "especialista";
-  const isAdmin = userDetails.type === "admin";
-  const isApostador = userDetails.type === "apostador";
+  const isEspecialista = userDetails.tipo === "Especialista";
+  const isAdmin = userDetails.tipo === "Administrador";
+  const isApostador = userDetails.tipo === "Apostador";
 
   return (
     <div>

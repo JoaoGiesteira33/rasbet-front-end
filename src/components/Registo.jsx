@@ -11,7 +11,7 @@ export const Register = ({isRegistinn, onSubmit}) => {
                 <input required name="userEmail" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' placeholder='E-mail' type="text"></input>
                 <input required name="userPassword" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' placeholder='Palavra-passe' type="password"></input>
                 <input required name="userDate" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' onFocus={(e) => (e.target.type = "date")} onBlur={(e) => (e.target.type = "text")} placeholder='Data de Nascimento' type="text"></input>
-                <input required name="userNIF" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' placeholder='NIF' type="number"></input>
+                <input required name="userNIF" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' placeholder='NIF' type="text"></input>
                 <input required name="userTelemovel" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-4' placeholder='Telemóvel' type="tel"></input>
                 <input required name="userMorada" className='text-center placeholder:text-center border-green-700 border-2 rounded-2xl p-4 mb-10' placeholder='Morada' type="text"></input>
                 <button type="submit" className='text-center self-center text-2xl font-bold w-full py-3 bg-orange-500 rounded-2xl'>Concluir</button>

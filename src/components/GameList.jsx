@@ -5,7 +5,7 @@ import { userDetailsContext } from './UserDetailsProvider';
 
 export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
-    const isAdmin = userDetails.type === "admin";
+    const isAdmin = userDetails.type === "Administrador";
 
     return (
         <div className='flex flex-col gap-8'>
