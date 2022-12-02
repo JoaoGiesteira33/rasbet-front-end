@@ -29,6 +29,23 @@ class APIService {
         })
         .then(res => res.json()); 
     }
+
+    getApostador(emailValue){
+        let url = new URL('http://localhost:8080/apostador/getInfo');
+        let params = {email:emailValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        return fetch(url,{ 
+            method: 'get',
+                headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                },
+                'credentials': 'same-origin'
+        })
+        .then(res => res.json()); 
+    }
 }
 
 export default new APIService();

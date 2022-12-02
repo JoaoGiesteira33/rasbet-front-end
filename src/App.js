@@ -14,6 +14,7 @@ import { AdminBoletim } from "./components/AdminBoletim";
 import APIService from "./APIService";
 import { Levantamento } from "./components/Levantamento";
 import { Deposito } from "./components/Deposito";
+import { apostadorDetailsContext } from "./components/ApostadorDetailsProvider";
 
 function App() {
   const [apiGames, setApiGames] = useState(null);
@@ -72,7 +73,10 @@ function App() {
   const [desporto,setDesporto] = useState("todos");
   const [isLogginin,setIsLogginin] = useState(false);
   const [isRegistinn, setIsRegistinn] = useState(false);
+  
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
+  const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
+
   const [isOnProfile, setIsOnProfile] = useState(false);
   const [isOnLevantar,setIsOnLevantar] = useState(false);
   const [isOnDepositar,setIsOnDepositar] = useState(false);
@@ -206,6 +210,15 @@ function App() {
             ...result,
             online: true,
           });
+          if(result["tipo"] === "Apostador"){
+            APIService.getApostador(result.email).then((data) => {
+              console.log(data);
+              setApostadorDetails(data);
+            })
+            .catch(function (ex) {
+                console.log('Response parsing failed. Error: ', ex);
+            });
+          }
           setIsLogginin(false);
         }
    });
@@ -364,7 +377,7 @@ function App() {
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal} handleRegisterClick={handleRegisterClick}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
-      <Profile
+      {isOnProfile && <Profile
         isOnProfile={isOnProfile}
         isOnAutoexclusao={isOnAutoexclusao}
         cancelAE={cancelAE}
@@ -374,7 +387,7 @@ function App() {
         handleLevantarClick={handleLevantarClick}
         handleDepositarClick={handleDepositarClick}
         isOnLevantar={isOnLevantar}
-        isOnDepositar={isOnDepositar}/>
+        isOnDepositar={isOnDepositar}/>}
       {isOnHistoricoApostas && <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
       {isOnHistoricoTransacoes && <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>}
       {isOnProm && <Promocao game={games.find(g => g.id === promGameID)}/>}

@@ -1,11 +1,12 @@
-import React, {useContext,useState} from 'react'
+import React, {useContext,useState,useEffect} from 'react'
 import '../styles/login.css';
 import { userDetailsContext } from './UserDetailsProvider';
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { AutoExclusao } from './AutoExclusao';
+import APIService from '../APIService';
 
-export const Profile = ({isOnProfile,
-     isOnAutoexclusao,
+export const Profile = ({isOnAutoexclusao,
       cancelAE,
        handleHAClick,
         handleHTClick,
@@ -13,9 +14,11 @@ export const Profile = ({isOnProfile,
           handleLevantarClick,
            handleDepositarClick}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
 
-    const [userMorada, setUserMorada] = useState(userDetails.userMorada);
-    const [userTelemovel, setUserTelemovel] = useState(userDetails.userTelemovel);
+    const [userMorada, setUserMorada] = useState(apostadorDetails.morada);
+    const [userTelemovel, setUserTelemovel] = useState(apostadorDetails.telemovel);
+    const [userSaldo, setUserSaldo] = useState(apostadorDetails.carteira);
     const [userPassword, setUserPassword] = useState(userDetails.password);
 
     const handleMoradaInput = (e) => {
@@ -28,9 +31,9 @@ export const Profile = ({isOnProfile,
         setUserPassword(e.target.value);
     }
     return (
-    <div className={`${!isOnProfile ? "active" : ""} gap-4 items-center show w-[1280px] h-[700px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
+    <div className={`gap-4 items-center show w-[1280px] h-[710px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
         <p className='text-6xl'>{userDetails.email}</p>
-        <p className='text-2xl mt-4'>Saldo: {} €</p>
+        <p className='text-2xl mt-4'>Saldo: {userSaldo} €</p>
         <hr className=' border-[1.5px] w-[1000px]'/>
         <div className='flex gap-[160px]'>
             <button onClick={handleLevantarClick} className='py-2 text-xl bg-white text-orange-500 font-semibold border-2 border-orange-500 rounded-md w-[200px]'>Levantar</button>

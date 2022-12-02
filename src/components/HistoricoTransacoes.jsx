@@ -1,10 +1,12 @@
 import React,{useContext,useState,useEffect} from 'react';
 import '../styles/login.css';
 import { userDetailsContext } from './UserDetailsProvider';
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
 import APIService from '../APIService';
 
 export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
     const [transacoes, setTransacoes] = useState([]);
 
     useEffect(() => {
@@ -17,81 +19,11 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
             console.log('Response parsing failed. Error: ', ex);
         });;
       }, [userDetails.email]);
-    /*
-    const transacoes = [{
-        data: "18/11/2021",
-        descricao: "Ganho de aposta",
-        operacao: "+ 13,29 €",
-        saldoDepois: 13.29,
-    },{
-        data: "12/11/2021",
-        descricao: "Aposta",
-        operacao: "- 3 €",
-        saldoDepois: 0,
-
-    },{
-        data: "12/11/2021",
-        descricao: "Depósito",
-        operacao: "+ 3 €",
-        saldoDepois: 3,
-
-    },{
-        data: "18/11/2021",
-        descricao: "Ganho de aposta",
-        operacao: "+ 13,29 €",
-        saldoDepois: 13.29,
-    },{
-        data: "12/11/2021",
-        descricao: "Aposta",
-        operacao: "- 3 €",
-        saldoDepois: 0,
-
-    },{
-        data: "12/11/2021",
-        descricao: "Depósito",
-        operacao: "+ 3 €",
-        saldoDepois: 3,
-
-    },{
-        data: "18/11/2021",
-        descricao: "Ganho de aposta",
-        operacao: "+ 13,29 €",
-        saldoDepois: 13.29,
-    },{
-        data: "12/11/2021",
-        descricao: "Aposta",
-        operacao: "- 3 €",
-        saldoDepois: 0,
-
-    },{
-        data: "12/11/2021",
-        descricao: "Depósito",
-        operacao: "+ 3 €",
-        saldoDepois: 3,
-
-    },{
-        data: "18/11/2021",
-        descricao: "Ganho de aposta",
-        operacao: "+ 13,29 €",
-        saldoDepois: 13.29,
-    },{
-        data: "12/11/2021",
-        descricao: "Aposta",
-        operacao: "- 3 €",
-        saldoDepois: 0,
-
-    },{
-        data: "12/11/2021",
-        descricao: "Depósito",
-        operacao: "+ 3 €",
-        saldoDepois: 3,
-
-    }]*/
 
     return (
     <div className={`${!isOnHistoricoTransacoes ? "active" : ""} gap-4 items-center show w-[1280px] h-[700px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
         <p className='text-4xl mt-4'>Histórico de Transações</p>
-        <p className='text-2xl mt-4'>Saldo: {} €</p>
+        <p className='text-2xl mt-4'>Saldo: {apostadorDetails.carteira} €</p>
         <div className='w-[1000px] no-scrollbar overflow-y-auto'>
         <table className="w-full">
         <thead className="bg-white sticky top-0 h-[50px] text-xl">
