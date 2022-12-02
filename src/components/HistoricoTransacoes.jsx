@@ -10,6 +10,8 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
     useEffect(() => {
         APIService.getTransacoes(userDetails.email).then((data) => {
           console.log(data)
+
+          setTransacoes(data);
         })
         .catch(function (ex) {
             console.log('Response parsing failed. Error: ', ex);
@@ -104,11 +106,11 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
         {
             transacoes.map((transacao) => {
                 return(
-                    <tr>
-                        <td className='text-center text-xl h-[50px]'>{transacao.data}</td>
+                    <tr key={transacao.data}>
+                        <td className='text-center text-xl h-[50px]'>{(new Date(transacao.data)).toLocaleDateString()}</td>
                         <td className='text-left text-xl h-[50px]'>{transacao.descricao}</td>
-                        <td className='text-left text-xl h-[50px]'>{transacao.operacao}</td>
-                        <td className='text-center text-xl h-[50px]'>{transacao.saldoDepois}</td>
+                        <td className='text-left text-xl h-[50px]'>{transacao.valor}€</td>
+                        <td className='text-center text-xl h-[50px]'>{transacao.valorApos}€</td>
                     </tr>
                 );
             })

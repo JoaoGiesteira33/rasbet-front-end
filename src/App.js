@@ -199,11 +199,15 @@ function App() {
       },
       }).then((response) => response.json()).then((result) => {
         console.log(result);
-        setUserDetails({
-          ...result,
-          online: true,
-        });
-        setIsLogginin(false);
+        if(result["tipo"] === null){
+          alert("Login inválido!")
+        }else{
+          setUserDetails({
+            ...result,
+            online: true,
+          });
+          setIsLogginin(false);
+        }
    });
   }
 

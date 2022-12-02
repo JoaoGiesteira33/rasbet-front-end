@@ -11,9 +11,7 @@ export const Profile = ({isOnProfile,
         handleHTClick,
          handleAEClick,
           handleLevantarClick,
-           handleDepositarClick,
-           isOnLevantar,
-            isOnDepositar }) => {
+           handleDepositarClick}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
 
     const [userMorada, setUserMorada] = useState(userDetails.userMorada);

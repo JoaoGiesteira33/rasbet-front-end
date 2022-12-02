@@ -8,6 +8,7 @@ export const Levantamento = ({cancelAction}) => {
     }
 
     const handleLevantamento = () => {
+        /*
         fetch("http://localhost:8080/utilizador/login", {
             method: "post",
             body: JSON.stringify({
@@ -19,6 +20,7 @@ export const Levantamento = ({cancelAction}) => {
             }).then((response) => response.json()).then((result) => {
               console.log(result);
          });
+         */
     }
 
     return (

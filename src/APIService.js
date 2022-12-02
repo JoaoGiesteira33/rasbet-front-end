@@ -1,3 +1,5 @@
+import { userDetailsContext } from "./components/UserDetailsProvider";
+
 class APIService { 
     getJogos(){
         return fetch('http://localhost:8080/jogo/getAll',{ 
@@ -11,8 +13,13 @@ class APIService {
         .then(res => res.json());        
     }
 
-    getTransacoes(email){
-        return fetch('http://localhost:8080/transacao/getAll',{ 
+    getTransacoes(emailValue){
+        let url = new URL('http://localhost:8080/apostador/getTransacaoList');
+        let params = {email:emailValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        return fetch(url,{ 
             method: 'get',
                 headers: {
                 'Accept': 'application/json, text/plain, */*',
