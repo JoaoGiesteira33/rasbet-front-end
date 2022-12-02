@@ -21,15 +21,37 @@ export const Profile = ({isOnAutoexclusao,
     const [userSaldo, setUserSaldo] = useState(apostadorDetails.carteira);
     const [userPassword, setUserPassword] = useState(userDetails.password);
 
+    const [changingInfo,setChaningInfo] = useState(false);
+
     const handleMoradaInput = (e) => {
+        if(e.target.value !== apostadorDetails.morada ||
+             userTelemovel !== apostadorDetails.telemovel ||
+             userPassword !== userDetails.password) setChaningInfo(true);
+        else setChaningInfo(false);
+
         setUserMorada(e.target.value);
     }
     const handleTelemovelInput = (e) => {
+        if(userMorada !== apostadorDetails.morada ||
+            e.target.value !== apostadorDetails.telemovel ||
+            userPassword !== userDetails.password) setChaningInfo(true);
+        else setChaningInfo(false);
+
         setUserTelemovel(e.target.value);
     }
     const handlePasswordInput = (e) => {
+        if(userMorada !== apostadorDetails.morada ||
+            userTelemovel !== apostadorDetails.telemovel ||
+            e.target.value !== userDetails.password) setChaningInfo(true);
+        else setChaningInfo(false);
+
         setUserPassword(e.target.value);
     }
+
+    const handleAlterarPerfil = (e) => {
+        
+    }
+
     return (
     <div className={`gap-4 items-center show w-[1280px] h-[710px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
         <p className='text-6xl'>{userDetails.email}</p>
@@ -65,7 +87,12 @@ export const Profile = ({isOnAutoexclusao,
                 </div>
             </div>
         </div>
-        <p onClick={() => handleAEClick()} className='self-end hover:underline hover:cursor-pointer bg-red-400 rounded-xl p-3'>Auto-exclusão</p>
+        <div className='flex w-full justify-between'>
+            <p onClick={() => handleAEClick()} className='font-semibold hover:underline hover:cursor-pointer bg-red-400 rounded-xl p-3'>Auto-exclusão</p>
+            { changingInfo &&
+                <p onClick={handleAlterarPerfil} className='hover:underline text-white font-semibold hover:cursor-pointer bg-green-700 rounded-xl p-3'>Atualizar Perfil</p>
+            }
+        </div>
         <AutoExclusao cancelAE={cancelAE} isOnAutoexclusao={isOnAutoexclusao}/>
     </div>
     );
