@@ -25,6 +25,3 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
         </div>
     );
 }
-/**
- * 
- */

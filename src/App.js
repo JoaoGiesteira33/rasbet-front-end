@@ -12,6 +12,8 @@ import { Promocao } from "./components/Promocao";
 import { EspecialistaBoletim } from "./components/EspecialistaBoletim";
 import { AdminBoletim } from "./components/AdminBoletim";
 import APIService from "./APIService";
+import { Levantamento } from "./components/Levantamento";
+import { Deposito } from "./components/Deposito";
 
 function App() {
   const [apiGames, setApiGames] = useState(null);
@@ -72,6 +74,8 @@ function App() {
   const [isRegistinn, setIsRegistinn] = useState(false);
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
   const [isOnProfile, setIsOnProfile] = useState(false);
+  const [isOnLevantar,setIsOnLevantar] = useState(false);
+  const [isOnDepositar,setIsOnDepositar] = useState(false);
   const [isOnHistoricoApostas, setIsOnHistoricoApostas] = useState(false);
   const [isOnHistoricoTransacoes, setIsOnHistoricoTransacoes] = useState(false);
   const [isOnAutoexclusao,setIsOnAutoexclusao] = useState(false);
@@ -248,6 +252,14 @@ function App() {
     setIsOnHistoricoTransacoes(true);
   }
 
+  const handleLevantarClick = () => {
+    setIsOnLevantar(true);
+  }
+
+  const handleDepositarClick = () => {
+    setIsOnDepositar(true);
+  }
+
   const closeAllWindows = () => {
     setIsLogginin(false);
     setIsRegistinn(false);
@@ -255,6 +267,8 @@ function App() {
     setIsOnHistoricoApostas(false);
     setIsOnHistoricoTransacoes(false);
     setIsOnAutoexclusao(false);
+    setIsOnLevantar(false);
+    setIsOnDepositar(false);
     if(isOnProm) setIsOnProm(false);
   }
 
@@ -352,10 +366,16 @@ function App() {
         cancelAE={cancelAE}
         handleHAClick={handleHistoricoApostasClick} 
         handleHTClick={handleHistoricoTransacoesClick}
-        handleAEClick={handleAEClick}/>
+        handleAEClick={handleAEClick}
+        handleLevantarClick={handleLevantarClick}
+        handleDepositarClick={handleDepositarClick}
+        isOnLevantar={isOnLevantar}
+        isOnDepositar={isOnDepositar}/>
       {isOnHistoricoApostas && <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
       {isOnHistoricoTransacoes && <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>}
       {isOnProm && <Promocao game={games.find(g => g.id === promGameID)}/>}
+      {isOnLevantar && <Levantamento cancelAction={() => setIsOnLevantar(false)}/>}
+      {isOnDepositar && <Deposito cancelAction={() => setIsOnDepositar(false)}/>}
     </div>
   );
 }
