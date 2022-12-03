@@ -18,7 +18,6 @@ import { apostadorDetailsContext } from "./components/ApostadorDetailsProvider";
 
 function App() {
   const [apiGames, setApiGames] = useState(null);
-
   const [games,setGames] = useState([{
     id: 1,
     home:'Porto',

@@ -18,10 +18,9 @@ export const Profile = ({isOnAutoexclusao,
 
     const [userMorada, setUserMorada] = useState(apostadorDetails.morada);
     const [userTelemovel, setUserTelemovel] = useState(apostadorDetails.telemovel);
-    const [userSaldo, setUserSaldo] = useState(apostadorDetails.carteira);
     const [userPassword, setUserPassword] = useState(userDetails.password);
-
     const [changingInfo,setChaningInfo] = useState(false);
+
 
     const handleMoradaInput = (e) => {
         if(e.target.value !== apostadorDetails.morada ||
@@ -55,7 +54,7 @@ export const Profile = ({isOnAutoexclusao,
     return (
     <div className={`gap-4 items-center show w-[1280px] h-[710px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>
         <p className='text-6xl'>{userDetails.email}</p>
-        <p className='text-2xl mt-4'>Saldo: {userSaldo} €</p>
+        <p className='text-2xl mt-4'>Saldo: {apostadorDetails.carteira} €</p>
         <hr className=' border-[1.5px] w-[1000px]'/>
         <div className='flex gap-[160px]'>
             <button onClick={handleLevantarClick} className='py-2 text-xl bg-white text-orange-500 font-semibold border-2 border-orange-500 rounded-md w-[200px]'>Levantar</button>

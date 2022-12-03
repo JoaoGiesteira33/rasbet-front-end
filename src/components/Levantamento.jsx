@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
+import {userDetailsContext} from "./UserDetailsProvider";
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
 
 export const Levantamento = ({cancelAction}) => {
+    const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
     const [inputValue,setInputValue] = useState("");
 
     const handleInputChange = (e) => {
@@ -8,19 +12,28 @@ export const Levantamento = ({cancelAction}) => {
     }
 
     const handleLevantamento = () => {
-        /*
-        fetch("http://localhost:8080/utilizador/login", {
+        if(isNaN(inputValue))
+        {
+            alert("Valor inválido!");
+            return;
+        }
+
+        let url = new URL('http://localhost:8080/apostador/levantar');
+        let params = {email:userDetails.email, valor: inputValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
             method: "post",
-            body: JSON.stringify({
-              valor: 20,
-            }),
             headers: {
-              'Content-type': 'application/json; charset=UTF-8',
+                'Content-type': 'application/json; charset=UTF-8',
             },
-            }).then((response) => response.json()).then((result) => {
-              console.log(result);
-         });
-         */
+        }).then((response) => response.json()).then(result => {
+            console.log(result["resposta"]);
+            const newConta = result["resposta"];
+            setApostadorDetails({...apostadorDetails,carteira: newConta});
+            cancelAction();
+        });
     }
 
     return (

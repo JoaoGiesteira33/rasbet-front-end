@@ -1,8 +1,10 @@
 import React, { useState,useContext } from 'react';
 import {userDetailsContext} from "./UserDetailsProvider";
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
 
 export const Deposito = ({cancelAction}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
     const [inputValue,setInputValue] = useState("");
 
     const handleInputChange = (e) => {
@@ -10,17 +12,27 @@ export const Deposito = ({cancelAction}) => {
     }
 
     const handleDeposito = () => {
-        fetch("http://localhost:8080/apostador/depositar", {
+        if(isNaN(inputValue))
+        {
+            alert("Valor inválido!");
+            return;
+        }
+
+        let url = new URL('http://localhost:8080/apostador/depositar');
+        let params = {email:userDetails.email, valor: inputValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
             method: "post",
-            body: JSON.stringify({
-                email: userDetails.email,
-                valor: inputValue,
-            }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         }).then((response) => response.json()).then(result => {
-            console.log(result);
+            console.log(result["resposta"]);
+            const newConta = result["resposta"];
+            setApostadorDetails({...apostadorDetails,carteira: newConta});
+            cancelAction();
         });
     }
 
