@@ -31,8 +31,12 @@ export const Levantamento = ({cancelAction}) => {
         }).then((response) => response.json()).then(result => {
             console.log(result["resposta"]);
             const newConta = result["resposta"];
-            setApostadorDetails({...apostadorDetails,carteira: newConta});
-            cancelAction();
+            if(!isNaN(newConta)){
+                setApostadorDetails({...apostadorDetails,carteira: newConta});
+                cancelAction();
+            }else{
+                alert("Levantamento inválido!");
+            }
         });
     }
 
@@ -44,7 +48,7 @@ export const Levantamento = ({cancelAction}) => {
         </div>
         <div className='flex gap-10'>
             <button onClick={() => {setInputValue(""); cancelAction();}} className=' border-orange-500 border-2 py-2 w-[140px] font-semibold text-orange-500 rounded-xl'>Cancelar</button>
-            <button onClick={() => setInputValue("siu")} className="bg-orange-500 text-white rounded-xl w-[140px] font-semibold">OK</button>
+            <button onClick={() => handleLevantamento()} className="bg-orange-500 text-white rounded-xl w-[140px] font-semibold">OK</button>
         </div>
     </div>
     )
