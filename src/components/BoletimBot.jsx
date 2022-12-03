@@ -18,30 +18,35 @@ export const BoletimBot = ({selecoes}) => {
 
     const handleAposta = () => {
         console.log(selecoes);
-        
+        console.log(JSON.stringify({
+            selecoes: selecoes,
+            valor: valorAposta,
+            idApostador: userDetails.email,
+        }));
         if(isNaN(valorAposta))
         {
             alert("Valor inválido!");
             return;
         }
 
-        let url = new URL('http://localhost:8080/apostador/levantar');
+        let url = new URL('http://localhost:8080/aposta/registaAposta');
 
         fetch(url, {
             method: "post",
             body: JSON.stringify({
-                listaSelecoes: selecoes,
-                valorAposta: valorAposta,
+                selecoes: selecoes,
+                valor: valorAposta,
+                idApostador: userDetails.email,
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         }).then((response) => response.json()).then(result => {
-            console.log(result["resposta"]);
-            const newConta = result["resposta"];
-            if(!isNaN(newConta)){
-            }else{
-                alert("Levantamento inválido!");
+            console.log(result);
+            if(result["resposta"] === "Aposta Registada."){
+                alert("sucesso");
+            }else if(result["resposta"] === "Saldo Insuficiente."){
+                alert("Saldo insuficiente!");
             }
         });
     }

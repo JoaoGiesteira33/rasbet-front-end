@@ -21,6 +21,15 @@ export const Profile = ({isOnAutoexclusao,
     const [userPassword, setUserPassword] = useState(userDetails.password);
     const [changingInfo,setChaningInfo] = useState(false);
 
+    useEffect(() => {
+        APIService.getApostador(userDetails.email).then((data) => {
+            console.log(data);
+            setApostadorDetails({...apostadorDetails, carteira: data["carteira"]});
+          })
+          .catch(function (ex) {
+              console.log('Response parsing failed. Error: ', ex);
+          });
+    })
 
     const handleMoradaInput = (e) => {
         if(e.target.value !== apostadorDetails.morada ||
