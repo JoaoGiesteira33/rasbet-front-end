@@ -17,7 +17,7 @@ import { Deposito } from "./components/Deposito";
 import { apostadorDetailsContext } from "./components/ApostadorDetailsProvider";
 
 function App() {
-  const [apiGames, setApiGames] = useState(null);
+  const [apiGames, setApiGames] = useState([]);
   const [games,setGames] = useState([{
     id: 1,
     home:'Porto',
@@ -85,20 +85,10 @@ function App() {
   const [isOnProm, setIsOnProm] = useState(false);
   const [promGameID, setPromGameID] = useState(-1);
   const [adminSelectedGame,setAdminSelectedGame] = useState("");
-/*
-  useEffect(() => {
 
-    APIService.getJogos().then((data) => {
-      console.log(data)
-    })
-    .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
-    });;
-  }, []);*/
-/*
   useEffect(() => {
     async function startFetching() {
-      setApiGames(null);
+      setApiGames([]);
       const result = await APIService.getJogos();
       if (!ignore) {
         setApiGames(result);
@@ -111,7 +101,6 @@ function App() {
       ignore = true;
     }
   }, []);
-*/
   console.log(apiGames);
 
   const handleLoginClick = () => {
@@ -316,7 +305,7 @@ function App() {
             isEspecialista && <GameList handlePromClick={handlePromClick}
              selectedOutcomes={selectedOutcomes}
               input={searchInput}
-               games={games}
+               games={apiGames}
                 desporto={desporto}
                  outcomeClick={espHandleOutcomeClick}/>
           }
@@ -324,7 +313,7 @@ function App() {
             isApostador && <GameList handlePromClick={handlePromClick}
              selectedOutcomes={selectedOutcomes}
               input={searchInput}
-               games={games}
+               games={apiGames}
                 desporto={desporto}
                  outcomeClick={handleOutcomeClick}/>
           }
@@ -332,7 +321,7 @@ function App() {
             isAdmin && <GameList handlePromClick={handlePromClick}
              selectedOutcomes={selectedOutcomes}
               input={searchInput}
-               games={games}
+               games={apiGames}
                 desporto={desporto}
                  outcomeClick={handleAdminOutcomeClick}
                  selectedGame={adminSelectedGame}/>
@@ -341,7 +330,7 @@ function App() {
             !(isAdmin || isApostador || isEspecialista) && <GameList handlePromClick={handlePromClick}
             selectedOutcomes={selectedOutcomes}
              input={searchInput}
-              games={games}
+              games={apiGames}
                desporto={desporto}
                 outcomeClick={handleOutcomeClick}/>
           }
@@ -352,31 +341,31 @@ function App() {
             finishAction={espHandleNewOddsSubmission}
              selectedOutcomes={selectedOutcomes}
               espSelectedOutcomes={espSelectedOutcomes}
-               games={games}
+               games={apiGames}
                 outcomeClick={espHandleOutcomeClick}/>
         }
         {
           isApostador &&  <Boletim selectedOutcomes={selectedOutcomes}
-           games={games}
+           games={apiGames}
             outcomeClick={handleOutcomeClick}/>
         }
         {
           isAdmin && <AdminBoletim
-           games={games}
+           games={apiGames}
            selectedGameId={adminSelectedGame}
            cancelAction={adminCancelChangeState}
            />
         }
         {
           !(isAdmin || isApostador || isEspecialista) && <Boletim selectedOutcomes={selectedOutcomes}
-          games={games}
+          games={apiGames}
            outcomeClick={handleOutcomeClick}/>
 
         }
       </div>
       <Login isLogginin={isLogginin} onSubmit={handleLoginFinal} handleRegisterClick={handleRegisterClick}/>
       <Register isRegistinn={isRegistinn} onSubmit={handleRegisterFinal}/>
-      {isOnProfile && <Profile
+      {(isOnProfile && isApostador) && <Profile
         isOnProfile={isOnProfile}
         isOnAutoexclusao={isOnAutoexclusao}
         cancelAE={cancelAE}
@@ -389,7 +378,7 @@ function App() {
         isOnDepositar={isOnDepositar}/>}
       {isOnHistoricoApostas && <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
       {isOnHistoricoTransacoes && <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>}
-      {isOnProm && <Promocao game={games.find(g => g.id === promGameID)}/>}
+      {isOnProm && <Promocao game={apiGames.find(g => g.id === promGameID)}/>}
       {isOnLevantar && <Levantamento cancelAction={() => setIsOnLevantar(false)}/>}
       {isOnDepositar && <Deposito cancelAction={() => setIsOnDepositar(false)}/>}
     </div>

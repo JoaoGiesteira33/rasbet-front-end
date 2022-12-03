@@ -12,11 +12,11 @@ export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}
             %
         </button>
             <div className='grow mx-20'>
-                <div className='flex justify-between'>
+                <div className='flex justify-end gap-5'>
                 {game.outcomes.map(outcome =>
-                    <div key={outcome.id}>
+                    <div key={outcome.idJogo+"_"+outcome.resultado}>
                         <button onClick={() => handleOutcomeClick(game.id)}
-                         className='ease-in duration-100 flex  w-[7rem] flex-col items-center justify-center border-2 border-green-700 rounded-md border-gray-500'>
+                         className='ease-in duration-100 flex  w-[7rem] flex-col items-center justify-center border-2 border-green-700 rounded-md border-gray-500 text-xs'>
                             <p className='font-bold'>
                                 {outcome.resultado}
                             </p>

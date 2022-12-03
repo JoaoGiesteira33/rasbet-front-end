@@ -2,7 +2,7 @@ import { userDetailsContext } from "./components/UserDetailsProvider";
 
 class APIService { 
     getJogos(){
-        return fetch('http://localhost:8080/jogo/getAll',{ 
+        return fetch('http://localhost:8080/jogo/getAllComplete',{ 
             method: 'get',
                 headers: {
                 'Accept': 'application/json, text/plain, */*',

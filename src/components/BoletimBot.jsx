@@ -16,6 +16,36 @@ export const BoletimBot = ({selecoes}) => {
         setValorAposta(e.target.value);
     }
 
+    const handleAposta = () => {
+        console.log(selecoes);
+        
+        if(isNaN(valorAposta))
+        {
+            alert("Valor inválido!");
+            return;
+        }
+
+        let url = new URL('http://localhost:8080/apostador/levantar');
+
+        fetch(url, {
+            method: "post",
+            body: JSON.stringify({
+                listaSelecoes: selecoes,
+                valorAposta: valorAposta,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json()).then(result => {
+            console.log(result["resposta"]);
+            const newConta = result["resposta"];
+            if(!isNaN(newConta)){
+            }else{
+                alert("Levantamento inválido!");
+            }
+        });
+    }
+
   return (
     <div className='flex min-w-full flex-col gap-1 mb-5'>
         <div className='flex bg-white content-center rounded-sm justify-between mx-6 p-5'>
@@ -31,7 +61,7 @@ export const BoletimBot = ({selecoes}) => {
                 <p>Total de ganhos</p>
                 <p className=' text-orange-600 font-bold'>{(cotaTotal*valorAposta).toFixed(2)} €</p>
             </div>
-            <button disabled={!canBet} className='font-bold hover:bg-orange-200 transition-colors bg-orange-500 px-7 py-3'>APOSTAR</button>
+            <button disabled={!canBet} onClick={handleAposta} className='font-bold hover:bg-orange-200 transition-colors bg-orange-500 px-7 py-3'>APOSTAR</button>
         </div>
     </div>
   )

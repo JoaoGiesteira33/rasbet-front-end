@@ -5,10 +5,10 @@ import { userDetailsContext } from './UserDetailsProvider';
 
 export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
-    const isAdmin = userDetails.type === "Administrador";
+    const isAdmin = userDetails.tipo === "Administrador";
 
     return (
-        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-8 overflow-y-auto no-scrollbar'>
             { isAdmin 
             ? games.map((g) => {
                 if(input !== ""  && !(g.home.toLowerCase().includes(input.toLowerCase()) || g.away.toLowerCase().includes(input.toLowerCase())))

@@ -7,7 +7,7 @@ export const Boletim = ({selectedOutcomes, games, outcomeClick}) => {
         let returnValue = [];
         games.forEach(g => {
             g.outcomes.forEach(o => {
-                if(selectedOutcomes.includes(o.id)){
+                if(selectedOutcomes.includes(o.idJogo+"_"+o.resultado)){
                     returnValue.push({
                         ...o,
                         jogo: g.home + ' - ' + g.away,
@@ -26,7 +26,7 @@ export const Boletim = ({selectedOutcomes, games, outcomeClick}) => {
             <p className='my-4 text-4xl font-bold'>BOLETIM</p>
             <div className='min-w-full grow overflow-auto'>
                 {selecoes.map((sel) => {
-                    return <div key={sel.id}><BoletimSelecao selecao={sel} outcomeClick={outcomeClick}/></div>;
+                    return <div key={sel.idJogo+"_"+sel.resultado}><BoletimSelecao selecao={sel} outcomeClick={outcomeClick}/></div>;
                 })
                 }
             </div>

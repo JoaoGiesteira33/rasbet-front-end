@@ -6,7 +6,7 @@ export const EspecialistaBoletim = ({handleOddChange, cancelAction, selectedOutc
         let returnValue = [];
         games.forEach(g => {
             g.outcomes.forEach(o => {
-                if(selectedOutcomes.includes(o.id)){
+                if(selectedOutcomes.includes(o.idJogo+"_"+o.resultado)){
                     returnValue.push({
                         ...o,
                         jogo: g.home + ' - ' + g.away,
@@ -25,8 +25,8 @@ export const EspecialistaBoletim = ({handleOddChange, cancelAction, selectedOutc
             <p className='my-4 text-4xl font-bold'>ALTERAR ODDS</p>
             <div className='min-w-full grow overflow-auto'>
                 {selecoes.map((sel) => {
-                    return <div key={sel.id}>
-                        <EspecialistaBoletimSelecao handleOddChange={handleOddChange} valorSelecao={espSelectedOutcomes.find(item => item.id === sel.id).value} selecao={sel} outcomeClick={outcomeClick}/>
+                    return <div key={sel.idJogo+"_"+sel.resultado}>
+                        <EspecialistaBoletimSelecao handleOddChange={handleOddChange} valorSelecao={espSelectedOutcomes.find(item => (item.id === (sel.idJogo + "_" + sel.resultado))).value} selecao={sel} outcomeClick={outcomeClick}/>
                     </div>;
                 })
                 }
