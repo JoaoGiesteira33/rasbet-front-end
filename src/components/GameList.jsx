@@ -19,11 +19,15 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
             ? games.map((g) => {
                 if(input !== ""  && !(g.home.toLowerCase().includes(input.toLowerCase()) || g.away.toLowerCase().includes(input.toLowerCase())))
                     return null;
+                if(g.estado === "fechado")
+                    return null;
                 return <div key={g.id}><AdminGame handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
                 }) 
             :
                 games.map((g) => {
                         if(input !== ""  && !(g.home.toLowerCase().includes(input.toLowerCase()) || g.away.toLowerCase().includes(input.toLowerCase())))
+                            return null;
+                        if(g.estado !== "aberto")
                             return null;
                         return <div key={g.id}><Game selectedOutcomes={selectedOutcomes} game={g} outcomeClick={outcomeClick}/></div>;
                 })

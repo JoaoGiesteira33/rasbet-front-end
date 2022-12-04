@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-export const AdminBoletim = ({cancelAction,finishAction,games,selectedGameId}) => {
+export const AdminBoletim = ({cancelAction,games,selectedGameId}) => {
     const [newState,setNewState] = useState("");
 
     useEffect(() => {
         setNewState("");
     },[selectedGameId])
 
-    const possibleStates = ["aberto","fechado","cancelado"];
+    const possibleStates = ["aberto","fechado","suspenso"];
 
     const game = games.find((g) => g.id === selectedGameId);
 
@@ -16,6 +16,34 @@ export const AdminBoletim = ({cancelAction,finishAction,games,selectedGameId}) =
             setNewState("")
         else
             setNewState(e.target.innerText);
+    }
+
+    const finishAction = () => {
+        console.log("Changing " + game.id + "to new state: " + newState);
+        let url = new URL(process.env.REACT_APP_BACKEND + '/administrador/mudaEstado');
+        let params = {idJogo:game.id, estado:newState};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json()).then(result => {
+            console.log(result);
+            if(result["resposta"] === "Jogo Suspendido"){
+                alert("Jogo suspendido");
+                setNewState("");
+                cancelAction();
+            }else if(result["resposta"] === "Jogo Fechado"){
+                alert("Jogo Fechado");
+                setNewState("");
+                cancelAction();
+            }else{
+                alert("Erro");
+            }
+        });
     }
 
     return (

@@ -8,7 +8,7 @@ export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}
             <p className=' text-sm text-gray-400'>{(new Date(game.data)).toLocaleDateString()}</p>
         </div>
         <button onClick={() => handlePromClick(game.id)}
-            className='bg-gray-700 w-[4rem] text-white text-xl font-bold items-center'>
+            className='bg-gray-700 w-[4rem] hover:bg-gray-500 text-white text-xl font-bold items-center'>
                 {
                     game.promocao === 0 ? 
                     <p>%</p> :
