@@ -2,7 +2,7 @@ import { userDetailsContext } from "./components/UserDetailsProvider";
 
 class APIService { 
     getJogos(){
-        return fetch('http://localhost:8080/jogo/getAllComplete',{ 
+        return fetch(process.env.REACT_APP_BACKEND + '/jogo/getAllComplete',{ 
             method: 'get',
                 headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -14,7 +14,7 @@ class APIService {
     }
 
     getTransacoes(emailValue){
-        let url = new URL('http://localhost:8080/apostador/getTransacaoList');
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/getTransacaoList');
         let params = {email:emailValue};
 
         url.search = new URLSearchParams(params).toString();
@@ -31,7 +31,7 @@ class APIService {
     }
 
     getApostador(emailValue){
-        let url = new URL('http://localhost:8080/apostador/getInfo');
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/getInfo');
         let params = {email:emailValue};
 
         url.search = new URLSearchParams(params).toString();
@@ -45,6 +45,23 @@ class APIService {
                 'credentials': 'same-origin'
         })
         .then(res => res.json()); 
+    }
+
+    getHistoricoApostas(emailValue){
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/getApostaList');
+        let params = {email:emailValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        return fetch(url,{ 
+            method: 'get',
+                headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                },
+                'credentials': 'same-origin'
+        })
+        .then(res => res.json());
     }
 }
 

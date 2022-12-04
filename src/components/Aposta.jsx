@@ -17,11 +17,19 @@ export const Aposta = ({aposta}) => {
         <div className='w-[50%] p-10 flex justify-between'>
             <div className='flex flex-col gap-6 items-start'>
                 <p>Montante Apostado</p>
-                <p>Total de ganhos</p>
+                {
+                    (aposta.ganhos === -1) ?
+                    <p className='font-semibold'>Aposta em aberto</p> :
+                    <p>Total de ganhos</p> 
+                }
             </div>
             <div className='flex gap-6 flex-col items-center pr-10'>
                 <p className='font-bold'>{aposta.apostado} €</p>
-                <p className='text-orange-500 font-bold'>{aposta.ganhos} €</p>
+                {
+                    (aposta.ganhos === -1) ?
+                    <p></p> :
+                    <p className='text-orange-500 font-bold'>{aposta.ganhos} €</p>
+                }
             </div>
         </div>
     </div>

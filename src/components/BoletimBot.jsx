@@ -1,7 +1,7 @@
 import {React, useContext, useState} from 'react'
 import  {userDetailsContext} from './UserDetailsProvider';
 
-export const BoletimBot = ({selecoes}) => {
+export const BoletimBot = ({selecoes,clearSelected}) => {
     const [valorAposta,setValorAposta] = useState('');
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
     const canBet = userDetails.online;
@@ -29,7 +29,7 @@ export const BoletimBot = ({selecoes}) => {
             return;
         }
 
-        let url = new URL('http://localhost:8080/aposta/registaAposta');
+        let url = new URL(process.env.REACT_APP_BACKEND + '/aposta/registaAposta');
 
         fetch(url, {
             method: "post",
@@ -44,7 +44,8 @@ export const BoletimBot = ({selecoes}) => {
         }).then((response) => response.json()).then(result => {
             console.log(result);
             if(result["resposta"] === "Aposta Registada."){
-                alert("sucesso");
+                alert("Aposta registada com sucesso.");
+                clearSelected(); //Limpa seleções de aposta
             }else if(result["resposta"] === "Saldo Insuficiente."){
                 alert("Saldo insuficiente!");
             }

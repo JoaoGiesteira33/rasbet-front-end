@@ -1,67 +1,22 @@
-import React, {useContext} from 'react'
+import React, {useContext,useEffect,useState} from 'react'
 import '../styles/login.css';
+import APIService from '../APIService';
 import { userDetailsContext } from './UserDetailsProvider';
 import { Aposta } from './Aposta';
 
 export const HistoricoApostas = ({isOnHistoricoApostas}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
-    const apostas = [
-        {
-            id: 1,
-            apostado: 10,
-            ganhos: 0,
-            selecoes: [{
-                id: 1,
-                jogo: 'Sporting - Varzim',
-                resultado: 'Sporting'
-            },
-            {
-                id: 2,
-                jogo: 'Porto - Benfica',
-                resultado: 'Empate'
-            },
-            {
-                id: 3,
-                jogo: 'Porto - Benfica',
-                resultado: 'Empate'
-            },
-            {
-                id: 4,
-                jogo: 'Porto - Benfica',
-                resultado: 'Empate'
-            }],
-        },{
-            id: 2,
-            apostado: 5,
-            ganhos: 25,
-            selecoes: [{
-                id: 1,
-                jogo: 'Sporting - Varzim',
-                resultado: 'Varzim'
-            },
-            {
-                id: 2,
-                jogo: 'Porto - Benfica',
-                resultado: 'Porto'
-            },
-            ],
-        },{
-            id: 3,
-            apostado: 5,
-            ganhos: 25,
-            selecoes: [{
-                id: 1,
-                jogo: 'Sporting - Varzim',
-                resultado: 'Varzim'
-            },
-            {
-                id: 2,
-                jogo: 'Porto - Benfica',
-                resultado: 'Porto'
-            },
-            ],
-        },
-    ]
+    const [apostas, setApostas] = useState([]);
+
+    useEffect(() => {
+        APIService.getHistoricoApostas(userDetails.email).then((data) => {
+            console.log(data);
+            setApostas([...data].reverse());
+        })
+        .catch(function (ex) {
+            console.log('Response parsing failed. Error: ', ex);
+        });
+    }, [userDetails.email]);
 
     return (
     <div className={`${!isOnHistoricoApostas ? "active" : ""} gap-4 items-center show w-[1280px] h-[700px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>

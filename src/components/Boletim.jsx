@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BoletimBot } from './BoletimBot';
 import { BoletimSelecao } from './BoletimSelecao';
 
-export const Boletim = ({selectedOutcomes, games, outcomeClick}) => {
+export const Boletim = ({selectedOutcomes, games, outcomeClick, clearSelected}) => {
     const getSelecoes = () => {
         let returnValue = [];
         games.forEach(g => {
@@ -30,7 +30,7 @@ export const Boletim = ({selectedOutcomes, games, outcomeClick}) => {
                 })
                 }
             </div>
-            <BoletimBot selecoes={selecoes}/>
+            <BoletimBot selecoes={selecoes} clearSelected={clearSelected}/>
         </div>
     );
 }

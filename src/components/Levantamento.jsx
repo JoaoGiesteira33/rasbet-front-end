@@ -18,7 +18,7 @@ export const Levantamento = ({cancelAction}) => {
             return;
         }
 
-        let url = new URL('http://localhost:8080/apostador/levantar');
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/levantar');
         let params = {email:userDetails.email, valor: inputValue};
 
         url.search = new URLSearchParams(params).toString();

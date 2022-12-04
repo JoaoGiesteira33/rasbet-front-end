@@ -18,58 +18,13 @@ import { apostadorDetailsContext } from "./components/ApostadorDetailsProvider";
 
 function App() {
   const [apiGames, setApiGames] = useState([]);
-  const [games,setGames] = useState([{
-    id: 1,
-    home:'Porto',
-    away:'Benfica',
-    date:'20-11 17:30',
-    estado: 'ativo',
-    outcomes: [
-        {
-            resultado: 'Porto',
-            cota: 1.6,
-            id: 1,
-        },
-        {
-            resultado: 'Empate',
-            cota: 4.6,
-            id: 2,
-        },
-        {
-            resultado: 'Benfica',
-            cota: 1.9,
-            id: 3,
-        }
-    ]
-    },{
-    id: 2,
-    home:'Sporting',
-    estado:'ativo',
-    away:'Braga',
-    date:'20-12 17:30',
-    outcomes: [
-        {
-            resultado: 'Sporting',
-            cota: 3.5,
-            id: 4,
-        },
-        {
-            resultado: 'Empate',
-            cota: 3.6,
-            id: 5,
-        },
-        {
-            resultado: 'Braga',
-            cota: 1.03,
-            id: 6,
-        }
-    ]
-    },]);
+
   const [selectedOutcomes, setSelectedOutcomes] = useState([]);
   const [espSelectedOutcomes, setEspSelectedOutcomes] = useState([]);
 
   const [searchInput,setSearchInput] = useState("");
   const [desporto,setDesporto] = useState("todos");
+
   const [isLogginin,setIsLogginin] = useState(false);
   const [isRegistinn, setIsRegistinn] = useState(false);
   
@@ -88,18 +43,16 @@ function App() {
 
   useEffect(() => {
     async function startFetching() {
-      setApiGames([]);
       const result = await APIService.getJogos();
-      if (!ignore) {
-        setApiGames(result);
-      }
+      setApiGames(result);
     }
 
-    let ignore = false;
-    startFetching();
-    return () => {
-      ignore = true;
-    }
+    const interval = setInterval(() => {
+      console.log('This will be called every 8 seconds');
+      startFetching();
+    }, 8000);
+  
+    return () => clearInterval(interval);
   }, []);
   console.log(apiGames);
 
@@ -142,7 +95,7 @@ function App() {
   const espHandleOutcomeClick = (id) => {
     if(!selectedOutcomes.includes(id)){
       setSelectedOutcomes([...selectedOutcomes,id])
-      setEspSelectedOutcomes([...espSelectedOutcomes,{id: id, value: ""}])
+      setEspSelectedOutcomes([...espSelectedOutcomes,{id: id, value: "1.0"}])
     }
     else{
       setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
@@ -180,7 +133,7 @@ function App() {
     const userPassword = formData.get("userPassword");
   
     //Login logic here
-    fetch("http://localhost:8080/utilizador/login", {
+    fetch(process.env.REACT_APP_BACKEND + "/utilizador/login", {
       method: "post",
       body: JSON.stringify({
         email: userEmail,
@@ -217,7 +170,7 @@ function App() {
     const formData = new FormData(e.target);
 
     //Register logic here
-    fetch("http://localhost:8080/utilizador/registar", {
+    fetch(process.env.REACT_APP_BACKEND + "/utilizador/registar", {
       method: "post",
       body: JSON.stringify({
         userEmail: formData.get("userEmail"),
@@ -291,6 +244,10 @@ function App() {
     setIsOnAutoexclusao(false);
   }
 
+  const clearSelected = () => {
+    setSelectedOutcomes([]);
+  }
+
   const isEspecialista = userDetails.tipo === "Especialista";
   const isAdmin = userDetails.tipo === "Administrador";
   const isApostador = userDetails.tipo === "Apostador";
@@ -347,7 +304,8 @@ function App() {
         {
           isApostador &&  <Boletim selectedOutcomes={selectedOutcomes}
            games={apiGames}
-            outcomeClick={handleOutcomeClick}/>
+            outcomeClick={handleOutcomeClick}
+              clearSelected={clearSelected}/>
         }
         {
           isAdmin && <AdminBoletim

@@ -18,7 +18,7 @@ export const Deposito = ({cancelAction}) => {
             return;
         }
 
-        let url = new URL('http://localhost:8080/apostador/depositar');
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/depositar');
         let params = {email:userDetails.email, valor: inputValue};
 
         url.search = new URLSearchParams(params).toString();

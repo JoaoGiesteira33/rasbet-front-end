@@ -13,7 +13,7 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
         APIService.getTransacoes(userDetails.email).then((data) => {
           console.log(data)
 
-          setTransacoes(data);
+          setTransacoes([...data].reverse());
         })
         .catch(function (ex) {
             console.log('Response parsing failed. Error: ', ex);
@@ -42,7 +42,7 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
                         <td className='text-center text-xl h-[50px]'>{(new Date(transacao.data)).toLocaleDateString()}</td>
                         <td className='text-left text-xl h-[50px]'>{transacao.descricao}</td>
                         <td className='text-left text-xl h-[50px]'>{transacao.valor}€</td>
-                        <td className='text-center text-xl h-[50px]'>{transacao.valorApos}€</td>
+                        <td className='text-center text-xl h-[50px]'>{transacao.saldoApos}€</td>
                     </tr>
                 );
             })

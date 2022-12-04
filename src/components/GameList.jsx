@@ -9,6 +9,12 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
 
     return (
         <div className='flex flex-col gap-8 overflow-y-auto no-scrollbar'>
+            {
+                (games.length === 0) && 
+                <div className="flex items-center justify-center mt-[250px]">
+                    <div className="w-24 h-24 border-l-2 border-gray-900 rounded-full animate-spin"></div>
+                </div>
+            }
             { isAdmin 
             ? games.map((g) => {
                 if(input !== ""  && !(g.home.toLowerCase().includes(input.toLowerCase()) || g.away.toLowerCase().includes(input.toLowerCase())))
