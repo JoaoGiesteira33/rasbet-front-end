@@ -1,18 +1,44 @@
 import React, { useState } from 'react'
 import '../styles/login.css';
 
-export const Promocao = ({game}) => {
+export const Promocao = ({game,closeProm}) => {
     const [valorProm, setValorProm] = useState("");
 
     const handlePromChange = (e) => {
         setValorProm(e.target.value);
     }
 
+    console.log(game);
+
     const handlePromInsertion = (e) => {
-        console.log("Prom value: " + e.target.value);
+        console.log("Prom value: " + valorProm);
+        console.log("Game id: " + game.id)
 
         //Insert prom logic
-        //...
+        if(isNaN(valorProm))
+        {
+            alert("Valor inválido!");
+            return;
+        }
+
+        let url = new URL(process.env.REACT_APP_BACKEND + '/administrador/addPromocao');
+        let params = {idJogo:game.id, valor:valorProm};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json()).then(result => {
+            console.log(result);
+            if(result["resposta"] === "Promocão adicionada"){
+                closeProm();
+            }else{
+                alert("Erro! Promoção não adicionada.");
+            }
+        });
     }
 
     return (

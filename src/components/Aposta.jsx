@@ -6,7 +6,7 @@ export const Aposta = ({aposta}) => {
         <div className='w-[50%] p-5'>
             {
                 aposta.selecoes.map(sele => {
-                    return (<div key={sele.id}>
+                    return (<div key={sele.jogo+sele.resultado}>
                         <p className='pt-2 text-2xl'>{sele.jogo}</p>
                         <p className='pl-3  font-medium'>Resultado: {sele.resultado}</p>
                     </div>);

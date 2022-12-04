@@ -23,7 +23,7 @@ export const Profile = ({isOnAutoexclusao,
 
     useEffect(() => {
         APIService.getApostador(userDetails.email).then((data) => {
-            console.log(data);
+            //console.log(data);
             setApostadorDetails({...apostadorDetails, carteira: data["carteira"]});
           })
           .catch(function (ex) {

@@ -54,7 +54,7 @@ function App() {
   
     return () => clearInterval(interval);
   }, []);
-  console.log(apiGames);
+  //console.log(apiGames);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -123,6 +123,31 @@ function App() {
     console.log(espSelectedOutcomes);
 
     //Handle new odds submission
+    let allAreValid = true;
+    espSelectedOutcomes.forEach((valor,index) => {
+      if(isNaN(valor.value)){
+        allAreValid = false;
+      }else if(valor.valur < 1.0){
+        allAreValid = true;
+      }
+    })
+
+    if(!allAreValid){
+      alert("Valores inválidos!");
+      return;
+    }
+
+    let url = new URL(process.env.REACT_APP_BACKEND + '/especialista/mudaOdds');
+
+    fetch(url, {
+        method: "post",
+        body: JSON.stringify(espSelectedOutcomes),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    }).then((response) => response.json()).then(result => {
+        console.log(result);
+    });
   }
 
   const handleLoginFinal = (e) => {
@@ -235,7 +260,6 @@ function App() {
   }
 
   const handlePromClick = (id) => {
-    console.log("Entering prom for game: " + id);
     setIsOnProm(true);
     setPromGameID(id);
   }
@@ -246,6 +270,11 @@ function App() {
 
   const clearSelected = () => {
     setSelectedOutcomes([]);
+  }
+
+  const closeProm = () => {
+    setPromGameID('1');
+    setIsOnProm(false);
   }
 
   const isEspecialista = userDetails.tipo === "Especialista";
@@ -334,9 +363,9 @@ function App() {
         handleDepositarClick={handleDepositarClick}
         isOnLevantar={isOnLevantar}
         isOnDepositar={isOnDepositar}/>}
-      {isOnHistoricoApostas && <HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
+      {<HistoricoApostas isOnHistoricoApostas={isOnHistoricoApostas}/>}
       {isOnHistoricoTransacoes && <HistoricoTransacoes isOnHistoricoTransacoes={ isOnHistoricoTransacoes }/>}
-      {isOnProm && <Promocao game={apiGames.find(g => g.id === promGameID)}/>}
+      {isOnProm && <Promocao game={apiGames.find(g => g.id === promGameID)} closeProm={closeProm}/>}
       {isOnLevantar && <Levantamento cancelAction={() => setIsOnLevantar(false)}/>}
       {isOnDepositar && <Deposito cancelAction={() => setIsOnDepositar(false)}/>}
     </div>
