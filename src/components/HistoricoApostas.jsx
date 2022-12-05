@@ -16,7 +16,7 @@ export const HistoricoApostas = ({isOnHistoricoApostas}) => {
         .catch(function (ex) {
             console.log('Response parsing failed. Error: ', ex);
         });
-    }, [userDetails.email]);
+    });
 
     return (
     <div className={`${!isOnHistoricoApostas ? "active" : ""} gap-4 items-center show w-[1280px] h-[700px] bg-white border-dotted  border-[2px] border-green-900  flex flex-col shrink rounded-3xl p-4`}>

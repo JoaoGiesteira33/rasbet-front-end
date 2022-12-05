@@ -24,7 +24,7 @@ export const Profile = ({isOnAutoexclusao,
     useEffect(() => {
         APIService.getApostador(userDetails.email).then((data) => {
             //console.log(data);
-            setApostadorDetails({...apostadorDetails, carteira: data["carteira"]});
+            setApostadorDetails(data);
           })
           .catch(function (ex) {
               console.log('Response parsing failed. Error: ', ex);
@@ -57,7 +57,24 @@ export const Profile = ({isOnAutoexclusao,
     }
 
     const handleAlterarPerfil = (e) => {
-        
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/mudaPerfil');
+        let params = {email:userDetails.email , morada:userMorada, telemovel:userTelemovel, password:userPassword};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json()).then(result => {
+            console.log(result);
+            if(result["resposta"] === "Perfil Atualizado"){
+                alert("Perfil alterado.");
+                setUserDetails({...userDetails,password:userPassword});
+                setChaningInfo(false);
+            }
+        });
     }
 
     return (
