@@ -37,9 +37,10 @@ export const HistoricoTransacoes = ({isOnHistoricoTransacoes}) => {
         <tbody>
         {
             transacoes.map((transacao) => {
+                const tDate = new Date(transacao.data);
                 return(
                     <tr key={transacao.data}>
-                        <td className='text-center text-xl h-[50px]'>{(new Date(transacao.data)).toLocaleDateString()}</td>
+                        <td className='text-center text-xl h-[50px]'>{tDate.toLocaleDateString()+ " " + tDate.getHours() + ":"+ tDate.getMinutes()}</td>
                         <td className='text-left text-xl h-[50px]'>{transacao.descricao}</td>
                         <td className='text-left text-xl h-[50px]'>{transacao.valor}€</td>
                         <td className='text-center text-xl h-[50px]'>{transacao.saldoApos}€</td>

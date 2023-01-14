@@ -1,17 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react';
 import '../styles/login.css';
 
+import { userDetailsContext } from './UserDetailsProvider';
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
+
 export const AutoExclusao = ({isOnAutoexclusao, cancelAE}) => {
+    const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
+
     const [inputDias,setInputDias] = useState("");
+
+    const isAutoExcluido = apostadorDetails.auto_Exclusao > 0;
 
     const handleInputChane = (e) => {
         setInputDias(e.target.value);
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    //Autoexclusao logic
+    const handleSubmit = () => {
+        //Insert prom logic
+        if(isNaN(inputDias))
+        {
+            alert("Valor inválido!");
+            return;
+        }
 
-        //Autoexclusao logic
+        let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/autoExclusao');
+        let params = {email: userDetails.email, dias:inputDias};
+
+        url.search = new URLSearchParams(params).toString();
+
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json()).then(result => {
+            console.log(result);
+            if(result["resposta"] > 0){ 
+                alert("Sucesso. Poderá voltar a apostar dentro de " + result["resposta"] + " dias.");
+                setInputDias("");
+                cancelAE();
+            }
+        });
+    }
+
+    if(isAutoExcluido){
+        return(
+            <div className={`${!isOnAutoexclusao ? "active" : ""} gap-4 show w-[900px] h-[100px] bg-white border-dotted  border-[2px] border-green-900 items-center  flex flex-col shrink rounded-3xl p-4`}>
+                <p>Faltam {apostadorDetails.auto_Exclusao} dias para poder apostar.</p>
+            </div>
+        )
     }
 
     return (

@@ -3,7 +3,7 @@ import { AdminGame } from './AdminGame';
 import { Game } from './Game';
 import { userDetailsContext } from './UserDetailsProvider';
 
-export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame}) => {
+export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame, desporto}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
     const isAdmin = userDetails.tipo === "Administrador";
 
@@ -21,6 +21,8 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
                     return null;
                 if(g.estado === "fechado")
                     return null;
+                if(desporto !== "todos" && desporto !== "futebol")
+                    return null;
                 return <div key={g.id}><AdminGame handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
                 }) 
             :
@@ -28,6 +30,8 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
                         if(input !== ""  && !(g.home.toLowerCase().includes(input.toLowerCase()) || g.away.toLowerCase().includes(input.toLowerCase())))
                             return null;
                         if(g.estado !== "aberto")
+                            return null;
+                        if(desporto !== "todos" && desporto !== "futebol")
                             return null;
                         return <div key={g.id}><Game selectedOutcomes={selectedOutcomes} game={g} outcomeClick={outcomeClick}/></div>;
                 })

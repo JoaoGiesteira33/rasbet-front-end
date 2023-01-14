@@ -1,10 +1,12 @@
 import {React, useContext, useState} from 'react'
 import  {userDetailsContext} from './UserDetailsProvider';
+import { apostadorDetailsContext } from './ApostadorDetailsProvider';
 
 export const BoletimBot = ({selecoes,clearSelected}) => {
     const [valorAposta,setValorAposta] = useState('');
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
-    const canBet = userDetails.online;
+    const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
+    const canBet = userDetails.online && apostadorDetails.auto_Exclusao === 0;
 
     const cotaTotal = selecoes.reduce(
         function(acc,currValue){
