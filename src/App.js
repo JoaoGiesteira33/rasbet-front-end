@@ -72,7 +72,10 @@ function App() {
 
   const handleOutcomeClick = (id) => {
     if(!selectedOutcomes.includes(id))
-      setSelectedOutcomes([...selectedOutcomes,id])
+      if(selectedOutcomes.length < 20)
+        setSelectedOutcomes([...selectedOutcomes,id]);
+      else
+        alert("Não pode apostar em mais de 20 eventos!");
     else{
       setSelectedOutcomes(selectedOutcomes.filter(g => id !== g));
     } 
