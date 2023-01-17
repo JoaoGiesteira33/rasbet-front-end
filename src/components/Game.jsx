@@ -17,7 +17,7 @@ export const Game = ({selectedOutcomes, game, outcomeClick, addToFollowedGames, 
     return (
     <div onMouseOver={() => {setIsHovering(true)}}
         onMouseLeave={() => {setIsHovering(false)}}
-        className='border-2 relative bg-gray-50 rounded-md border-dotted border-green-900 flex items-center'>
+        className='border-2 -z-10 relative bg-gray-50 rounded-md border-dotted border-green-900 flex items-center'>
             <div className='flex flex-col justify-center m-4  min-w-[200px]'>
                 <p className='text-xl'><b>{game.home} - {game.away}</b></p>
                 <p className=' text-sm text-gray-400'>{gameDate.toLocaleDateString() + " " + gameDate.getHours() + ":" + gameDate.getMinutes()}</p>

@@ -39,6 +39,8 @@ function App() {
   const [isOnHistoricoTransacoes, setIsOnHistoricoTransacoes] = useState(false);
   const [isOnAutoexclusao,setIsOnAutoexclusao] = useState(false);
   const [isOnProm, setIsOnProm] = useState(false);
+  const [isOnNotificacoes, setIsOnNotificacoes] = useState(false);
+
   const [promGameID, setPromGameID] = useState(-1);
   const [adminSelectedGame,setAdminSelectedGame] = useState("");
 
@@ -236,6 +238,7 @@ function App() {
     setIsOnProfile((isOnProfile) => (!isOnProfile));
     setIsOnHistoricoApostas(false);
     setIsOnHistoricoTransacoes(false);
+    setIsOnNotificacoes(false);
   }
 
   const handleHistoricoApostasClick = () => {
@@ -265,6 +268,7 @@ function App() {
     setIsOnAutoexclusao(false);
     setIsOnLevantar(false);
     setIsOnDepositar(false);
+    setIsOnNotificacoes(false);
     if(isOnProm) setIsOnProm(false);
   }
 
@@ -328,13 +332,17 @@ function App() {
     });
   }
 
+  const handleNotificacoesClick = () => {
+    setIsOnNotificacoes(!isOnNotificacoes);
+  }
+
   const isEspecialista = userDetails.tipo === "Especialista";
   const isAdmin = userDetails.tipo === "Administrador";
   const isApostador = userDetails.tipo === "Apostador";
 
   return (
     <div>
-      <Navbar closeAllWindows={closeAllWindows} desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
+      <Navbar nClick={handleNotificacoesClick} nValue={isOnNotificacoes} closeAllWindows={closeAllWindows} desporto={desporto} changeDesporto={handleSportClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} handleProfileClick={handleProfileClick}/>
       <div onClick={() => closeAllWindows()} className="flex h-[90vh] mt-[10vh]">
         <div className="flex flex-col grow-[1] m-6 gap-4">
           <input placeholder="Search" onChange={(e) => setSearchInput(e.target.value)} value={searchInput} className=" w-[100%] p-2 border-green-700 border-2 rounded-3xl" type="text"></input>

@@ -3,17 +3,22 @@ import  {userDetailsContext} from './UserDetailsProvider';
 import { BellIcon } from '@heroicons/react/24/solid';
 import { BellAlertIcon } from '@heroicons/react/24/solid';
 
-export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}) => {
+export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame,addToFollowedGames, removeFollowedGames, isFollowed}) => {
     const gameDate = new Date(game.data);
 
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
     const [isHovering, setIsHovering] = useState(false);
-    const [isBeingFollowed, setIsBeingFollowed] = useState(true);
 
+    const isBeingFollowed = isFollowed;
     const canBet = userDetails.online;
+    const email = userDetails.email;
+    const game_id = game.id;
 
     return (
-    <div className={`${game.id === selectedGame ? "animate-pulse" : ""} border-2 bg-gray-50 rounded-md border-dotted border-green-900 flex items-center`}>
+    <div
+        onMouseOver={() => {setIsHovering(true)}}
+        onMouseLeave={() => {setIsHovering(false)}}
+        className={`${game.id === selectedGame ? "animate-pulse" : ""} border-2 bg-gray-50 rounded-md border-dotted border-green-900 flex items-center -z-10 relative`}>
         <div className='flex flex-col justify-center m-4  min-w-[200px]'>
             <p className='text-xl'><b>{game.home} - {game.away}</b></p>
             <p className=' text-sm text-gray-400'>{gameDate.toLocaleDateString() + " " + gameDate.getHours() + ":" + gameDate.getMinutes()}</p>
@@ -47,14 +52,14 @@ export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}
         {
                 (canBet && !isBeingFollowed && isHovering) &&
                 <BellIcon
-                onClick={() => {setIsBeingFollowed(!isBeingFollowed)}}
+                onClick={() => {addToFollowedGames(email, game_id);}}
                 className='absolute right-0 bottom-0 border-green-900 rounded-md border-2 font-bold text-xl h-6 w-6 m-2 ease-in duration-300 hover:bg-green-400'
                 />
             }
             {
                 (canBet && isBeingFollowed) &&
                 <BellAlertIcon
-                onClick={() => {setIsBeingFollowed(!isBeingFollowed)}}
+                onClick={() => {removeFollowedGames(email, game_id);}}
                 className='absolute right-0 bottom-0 border-green-900 bg-green-400 rounded-md border-2 font-bold text-xl h-6 w-6 m-2 ease-in duration-300'
                 />
             }

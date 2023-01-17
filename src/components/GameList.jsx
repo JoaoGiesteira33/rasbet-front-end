@@ -23,7 +23,7 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
                     return null;
                 if(desporto !== "todos" && desporto !== "futebol")
                     return null;
-                return <div key={g.id}><AdminGame addToFollowedGames={addToFollowedGames} removeFollowedGames={removeFollowedGames} handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
+                return <div key={g.id}><AdminGame addToFollowedGames={addToFollowedGames} removeFollowedGames={removeFollowedGames} isFollowed={followedGames.includes(g.id)} handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
                 }) 
             :
                 games.map((g) => {
