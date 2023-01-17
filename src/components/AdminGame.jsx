@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import  {userDetailsContext} from './UserDetailsProvider';
+import { BellIcon } from '@heroicons/react/24/solid';
+import { BellAlertIcon } from '@heroicons/react/24/solid';
 
 export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}) => {
     const gameDate = new Date(game.data);
+
+    const [userDetails, setUserDetails] = useContext(userDetailsContext);
+    const [isHovering, setIsHovering] = useState(false);
+    const [isBeingFollowed, setIsBeingFollowed] = useState(true);
+
+    const canBet = userDetails.online;
 
     return (
     <div className={`${game.id === selectedGame ? "animate-pulse" : ""} border-2 bg-gray-50 rounded-md border-dotted border-green-900 flex items-center`}>
@@ -32,8 +41,23 @@ export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame}
                         </button>
                     </div>
                 )}
+                
             </div>
         </div>
+        {
+                (canBet && !isBeingFollowed && isHovering) &&
+                <BellIcon
+                onClick={() => {setIsBeingFollowed(!isBeingFollowed)}}
+                className='absolute right-0 bottom-0 border-green-900 rounded-md border-2 font-bold text-xl h-6 w-6 m-2 ease-in duration-300 hover:bg-green-400'
+                />
+            }
+            {
+                (canBet && isBeingFollowed) &&
+                <BellAlertIcon
+                onClick={() => {setIsBeingFollowed(!isBeingFollowed)}}
+                className='absolute right-0 bottom-0 border-green-900 bg-green-400 rounded-md border-2 font-bold text-xl h-6 w-6 m-2 ease-in duration-300'
+                />
+            }
     </div>
     );
 }

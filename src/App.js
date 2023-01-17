@@ -30,6 +30,7 @@ function App() {
   
   const [userDetails, setUserDetails] = useContext(userDetailsContext);
   const [apostadorDetails, setApostadorDetails] = useContext(apostadorDetailsContext);
+  const [followedGames, setFollowedGames] = useState([]);
 
   const [isOnProfile, setIsOnProfile] = useState(false);
   const [isOnLevantar,setIsOnLevantar] = useState(false);
@@ -40,6 +41,16 @@ function App() {
   const [isOnProm, setIsOnProm] = useState(false);
   const [promGameID, setPromGameID] = useState(-1);
   const [adminSelectedGame,setAdminSelectedGame] = useState("");
+
+  useEffect(() => {
+    console.log("User Details updated, fetching followed games...");
+    async function startFetchingFollowedGames() {
+      const result = await APIService.getJogosSeguidos(userDetails.email);
+      setFollowedGames(result);
+    }
+
+    startFetchingFollowedGames();
+  },[userDetails])
 
   useEffect(() => {
     async function startFetching() {
@@ -54,7 +65,6 @@ function App() {
   
     return () => clearInterval(interval);
   }, []);
-  //console.log(apiGames);
 
   const handleLoginClick = () => {
     setIsRegistinn(false);
@@ -280,6 +290,44 @@ function App() {
     setIsOnProm(false);
   }
 
+  const addToFollowedGames = (email, game_id) => {
+    console.log("Adding to followed games..." + email + " " + game_id);
+    setFollowedGames([...followedGames, game_id]);
+
+    let url = new URL(process.env.REACT_APP_BACKEND + '/utilizador/addNotifica');
+    let params = {email:email, idJogo: game_id};
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url, {
+        method: "post",
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+      }
+    ).then((response) => response.json()).then((result) => {
+      console.log(result);
+    });
+  }
+
+  const removeFollowedGames = (email, game_id) => {
+    console.log("Removing from followed games..." + email + " " + game_id);
+    setFollowedGames(followedGames.filter((id) => id !== game_id));
+
+    let url = new URL(process.env.REACT_APP_BACKEND + '/utilizador/removeNotifica');
+    let params = {email:email, idJogo: game_id};
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url, {
+        method: "post",
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+      }
+    ).then((response) => response.json()).then((result) => {
+      console.log(result);
+    });
+  }
+
   const isEspecialista = userDetails.tipo === "Especialista";
   const isAdmin = userDetails.tipo === "Administrador";
   const isApostador = userDetails.tipo === "Apostador";
@@ -296,7 +344,10 @@ function App() {
               input={searchInput}
                games={apiGames}
                 desporto={desporto}
-                 outcomeClick={espHandleOutcomeClick}/>
+                 outcomeClick={espHandleOutcomeClick}
+                 addToFollowedGames={addToFollowedGames}
+                 removeFollowedGames={removeFollowedGames}
+                 followedGames={followedGames}/>
           }
           {
             isApostador && <GameList handlePromClick={handlePromClick}
@@ -304,7 +355,10 @@ function App() {
               input={searchInput}
                games={apiGames}
                 desporto={desporto}
-                 outcomeClick={handleOutcomeClick}/>
+                 outcomeClick={handleOutcomeClick}
+                 addToFollowedGames={addToFollowedGames}
+                 removeFollowedGames={removeFollowedGames}
+                 followedGames={followedGames}/>
           }
           {
             isAdmin && <GameList handlePromClick={handlePromClick}
@@ -313,7 +367,10 @@ function App() {
                games={apiGames}
                 desporto={desporto}
                  outcomeClick={handleAdminOutcomeClick}
-                 selectedGame={adminSelectedGame}/>
+                 selectedGame={adminSelectedGame}
+                 addToFollowedGames={addToFollowedGames}
+                 removeFollowedGames={removeFollowedGames}
+                 followedGames={followedGames}/>
           }
           {
             !(isAdmin || isApostador || isEspecialista) && <GameList handlePromClick={handlePromClick}
@@ -321,7 +378,8 @@ function App() {
              input={searchInput}
               games={apiGames}
                desporto={desporto}
-                outcomeClick={handleOutcomeClick}/>
+                outcomeClick={handleOutcomeClick}
+                followedGames={followedGames}/>
           }
         </div>
         {

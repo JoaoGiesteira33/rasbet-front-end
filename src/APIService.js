@@ -13,6 +13,23 @@ class APIService {
         .then(res => res.json());        
     }
 
+    getJogosSeguidos(emailValue){
+        let url = new URL(process.env.REACT_APP_BACKEND + '/utilizador/getSeguidos');
+        let params = {email:emailValue};
+
+        url.search = new URLSearchParams(params).toString();
+
+        return fetch(url,{ 
+            method: 'get',
+                headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                },
+                'credentials': 'same-origin'
+        })
+        .then(res => res.json());       
+    }
+
     getTransacoes(emailValue){
         let url = new URL(process.env.REACT_APP_BACKEND + '/apostador/getTransacaoList');
         let params = {email:emailValue};

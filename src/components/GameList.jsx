@@ -3,7 +3,7 @@ import { AdminGame } from './AdminGame';
 import { Game } from './Game';
 import { userDetailsContext } from './UserDetailsProvider';
 
-export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame, desporto}) => {
+export const GameList = ({handlePromClick, selectedOutcomes, input, games, outcomeClick, selectedGame, desporto, addToFollowedGames, removeFollowedGames, followedGames}) => {
     const [userDetails, setUserDetails] = useContext(userDetailsContext);
     const isAdmin = userDetails.tipo === "Administrador";
 
@@ -23,7 +23,7 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
                     return null;
                 if(desporto !== "todos" && desporto !== "futebol")
                     return null;
-                return <div key={g.id}><AdminGame handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
+                return <div key={g.id}><AdminGame addToFollowedGames={addToFollowedGames} removeFollowedGames={removeFollowedGames} handlePromClick={handlePromClick} game={g} handleOutcomeClick={outcomeClick} selectedGame={selectedGame}/></div>;
                 }) 
             :
                 games.map((g) => {
@@ -33,7 +33,7 @@ export const GameList = ({handlePromClick, selectedOutcomes, input, games, outco
                             return null;
                         if(desporto !== "todos" && desporto !== "futebol")
                             return null;
-                        return <div key={g.id}><Game selectedOutcomes={selectedOutcomes} game={g} outcomeClick={outcomeClick}/></div>;
+                        return <div key={g.id}><Game addToFollowedGames={addToFollowedGames} removeFollowedGames={removeFollowedGames} isFollowed={followedGames.includes(g.id)} selectedOutcomes={selectedOutcomes} game={g} outcomeClick={outcomeClick}/></div>;
                 })
             }
         </div>
