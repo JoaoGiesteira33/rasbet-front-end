@@ -15,8 +15,7 @@ export const AdminGame = ({game,handlePromClick,handleOutcomeClick,selectedGame,
     const game_id = game.id;
 
     return (
-    <div
-        onMouseOver={() => {setIsHovering(true)}}
+    <div onMouseOver={() => {setIsHovering(true)}}
         onMouseLeave={() => {setIsHovering(false)}}
         className={`${game.id === selectedGame ? "animate-pulse" : ""} border-2 bg-gray-50 rounded-md border-dotted border-green-900 flex items-center -z-10 relative`}>
         <div className='flex flex-col justify-center m-4  min-w-[200px]'>
